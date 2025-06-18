@@ -128,7 +128,8 @@ class TerraformLoader(ProviderLoader):
             enriched_resources.extend(module_resources)
 
         enriched_model['resource'] = enriched_resources
-        del enriched_model['module']  # Remove modules after enrichment
+        if 'module' in enriched_model:
+            del enriched_model['module']  # Remove modules after enrichment
 
         return enriched_model
             

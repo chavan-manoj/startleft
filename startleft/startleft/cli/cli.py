@@ -291,4 +291,6 @@ def server(host: str, port: int):
 
 
 if __name__ == '__main__':
-    cli(None, None)
+    parse_iac("TERRAFORM", "/Users/KMBL351722/code/buildertools/risk-intel/src/kmbl/security/resources/startleft-mapping.yaml", None, "cb-cos-infra-deploy.otm.json", "cb-cos-infra-deploy", "cb-cos-infra-deploy",
+              ["/Users/KMBL351722/code/branchbanking/cb-cos-infra-deploy/main.tf"])
+    # cli(None, None)

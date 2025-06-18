@@ -1,5 +1,6 @@
 import logging
 import uuid
+import json
 
 from slp_tf.slp_tf.parse.mapping.mappers.tf_backward_compatibility import TfIdMapDictionary, TfDataflowNodeId
 from slp_tf.slp_tf.parse.mapping.mappers.tf_component_mapper import TerraformComponentMapper
@@ -45,6 +46,9 @@ class TerraformTransformer:
         self.singleton_component_ids = []
 
     def run(self, iac_mapping):
+        with open("expanded_tf.json", "w") as file:
+            json.dump(self.source_model.data, file, indent=4)
+            
         self.iac_mapping = iac_mapping
         self.build_lookup()
         self.transform_trustzones()

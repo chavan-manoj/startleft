@@ -1,0 +1,3046 @@
+{
+    "resource": [
+        {
+            "aws_lb": {
+                "this": {
+                    "count": "${local.create ? 1 : 0}",
+                    "dynamic": [
+                        {
+                            "access_logs": {
+                                "for_each": "${length(var.access_logs) > 0 ? ['${var.access_logs}'] : []}",
+                                "content": [
+                                    {
+                                        "bucket": "${access_logs.value.bucket}",
+                                        "enabled": "${try(access_logs.value.enabled, True)}",
+                                        "prefix": "${try(access_logs.value.prefix, None)}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "connection_logs": {
+                                "for_each": "${length(var.connection_logs) > 0 ? ['${var.connection_logs}'] : []}",
+                                "content": [
+                                    {
+                                        "bucket": "${connection_logs.value.bucket}",
+                                        "enabled": "${try(connection_logs.value.enabled, True)}",
+                                        "prefix": "${try(connection_logs.value.prefix, None)}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "subnet_mapping": {
+                                "for_each": "${var.subnet_mapping}",
+                                "content": [
+                                    {
+                                        "allocation_id": "${lookup(subnet_mapping.value, \"allocation_id\", None)}",
+                                        "ipv6_address": "${lookup(subnet_mapping.value, \"ipv6_address\", None)}",
+                                        "private_ipv4_address": "${lookup(subnet_mapping.value, \"private_ipv4_address\", None)}",
+                                        "subnet_id": "${subnet_mapping.value.subnet_id}"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "customer_owned_ipv4_pool": "${var.customer_owned_ipv4_pool}",
+                    "desync_mitigation_mode": "${var.desync_mitigation_mode}",
+                    "dns_record_client_routing_policy": "${var.dns_record_client_routing_policy}",
+                    "drop_invalid_header_fields": "${var.drop_invalid_header_fields}",
+                    "enable_cross_zone_load_balancing": "${var.enable_cross_zone_load_balancing}",
+                    "enable_deletion_protection": "${var.enable_deletion_protection}",
+                    "enable_http2": "${var.enable_http2}",
+                    "enable_tls_version_and_cipher_suite_headers": "${var.enable_tls_version_and_cipher_suite_headers}",
+                    "enable_waf_fail_open": "${var.enable_waf_fail_open}",
+                    "enable_xff_client_port": "${var.enable_xff_client_port}",
+                    "enforce_security_group_inbound_rules_on_private_link_traffic": "${var.enforce_security_group_inbound_rules_on_private_link_traffic}",
+                    "idle_timeout": "${var.idle_timeout}",
+                    "internal": "${var.internal}",
+                    "ip_address_type": "${var.ip_address_type}",
+                    "load_balancer_type": "${var.load_balancer_type}",
+                    "name": "${var.name}",
+                    "name_prefix": "${var.name_prefix}",
+                    "preserve_host_header": "${var.preserve_host_header}",
+                    "security_groups": "${var.create_security_group ? concat(['${aws_security_group.this[0].id}'], var.security_groups) : var.security_groups}",
+                    "subnets": "${var.subnets}",
+                    "tags": "${local.tags}",
+                    "xff_header_processing_mode": "${var.xff_header_processing_mode}",
+                    "timeouts": [
+                        {
+                            "create": "${try(var.timeouts.create, None)}",
+                            "update": "${try(var.timeouts.update, None)}",
+                            "delete": "${try(var.timeouts.delete, None)}"
+                        }
+                    ],
+                    "lifecycle": [
+                        {
+                            "ignore_changes": [
+                                "${tags[\"elasticbeanstalk:shared-elb-environment-count\"]}"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "resource_id": "aws_lb.this",
+            "resource_type": "aws_lb",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${local.create ? 1 : 0}",
+                "dynamic": [
+                    {
+                        "access_logs": {
+                            "for_each": "${length(var.access_logs) > 0 ? ['${var.access_logs}'] : []}",
+                            "content": [
+                                {
+                                    "bucket": "${access_logs.value.bucket}",
+                                    "enabled": "${try(access_logs.value.enabled, True)}",
+                                    "prefix": "${try(access_logs.value.prefix, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "connection_logs": {
+                            "for_each": "${length(var.connection_logs) > 0 ? ['${var.connection_logs}'] : []}",
+                            "content": [
+                                {
+                                    "bucket": "${connection_logs.value.bucket}",
+                                    "enabled": "${try(connection_logs.value.enabled, True)}",
+                                    "prefix": "${try(connection_logs.value.prefix, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "subnet_mapping": {
+                            "for_each": "${var.subnet_mapping}",
+                            "content": [
+                                {
+                                    "allocation_id": "${lookup(subnet_mapping.value, \"allocation_id\", None)}",
+                                    "ipv6_address": "${lookup(subnet_mapping.value, \"ipv6_address\", None)}",
+                                    "private_ipv4_address": "${lookup(subnet_mapping.value, \"private_ipv4_address\", None)}",
+                                    "subnet_id": "${subnet_mapping.value.subnet_id}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "customer_owned_ipv4_pool": "${var.customer_owned_ipv4_pool}",
+                "desync_mitigation_mode": "${var.desync_mitigation_mode}",
+                "dns_record_client_routing_policy": "${var.dns_record_client_routing_policy}",
+                "drop_invalid_header_fields": "${var.drop_invalid_header_fields}",
+                "enable_cross_zone_load_balancing": "${var.enable_cross_zone_load_balancing}",
+                "enable_deletion_protection": "${var.enable_deletion_protection}",
+                "enable_http2": "${var.enable_http2}",
+                "enable_tls_version_and_cipher_suite_headers": "${var.enable_tls_version_and_cipher_suite_headers}",
+                "enable_waf_fail_open": "${var.enable_waf_fail_open}",
+                "enable_xff_client_port": "${var.enable_xff_client_port}",
+                "enforce_security_group_inbound_rules_on_private_link_traffic": "${var.enforce_security_group_inbound_rules_on_private_link_traffic}",
+                "idle_timeout": "${var.idle_timeout}",
+                "internal": "${var.internal}",
+                "ip_address_type": "${var.ip_address_type}",
+                "load_balancer_type": "${var.load_balancer_type}",
+                "name": "${var.name}",
+                "name_prefix": "${var.name_prefix}",
+                "preserve_host_header": "${var.preserve_host_header}",
+                "security_groups": "${var.create_security_group ? concat(['${aws_security_group.this[0].id}'], var.security_groups) : var.security_groups}",
+                "subnets": "${var.subnets}",
+                "tags": "${local.tags}",
+                "xff_header_processing_mode": "${var.xff_header_processing_mode}",
+                "timeouts": [
+                    {
+                        "create": "${try(var.timeouts.create, None)}",
+                        "update": "${try(var.timeouts.update, None)}",
+                        "delete": "${try(var.timeouts.delete, None)}"
+                    }
+                ],
+                "lifecycle": [
+                    {
+                        "ignore_changes": [
+                            "${tags[\"elasticbeanstalk:shared-elb-environment-count\"]}"
+                        ]
+                    }
+                ]
+            },
+            "Type": "aws_lb",
+            "_key": "this",
+            "Properties": {
+                "count": "${local.create ? 1 : 0}",
+                "dynamic": [
+                    {
+                        "access_logs": {
+                            "for_each": "${length(var.access_logs) > 0 ? ['${var.access_logs}'] : []}",
+                            "content": [
+                                {
+                                    "bucket": "${access_logs.value.bucket}",
+                                    "enabled": "${try(access_logs.value.enabled, True)}",
+                                    "prefix": "${try(access_logs.value.prefix, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "connection_logs": {
+                            "for_each": "${length(var.connection_logs) > 0 ? ['${var.connection_logs}'] : []}",
+                            "content": [
+                                {
+                                    "bucket": "${connection_logs.value.bucket}",
+                                    "enabled": "${try(connection_logs.value.enabled, True)}",
+                                    "prefix": "${try(connection_logs.value.prefix, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "subnet_mapping": {
+                            "for_each": "${var.subnet_mapping}",
+                            "content": [
+                                {
+                                    "allocation_id": "${lookup(subnet_mapping.value, \"allocation_id\", None)}",
+                                    "ipv6_address": "${lookup(subnet_mapping.value, \"ipv6_address\", None)}",
+                                    "private_ipv4_address": "${lookup(subnet_mapping.value, \"private_ipv4_address\", None)}",
+                                    "subnet_id": "${subnet_mapping.value.subnet_id}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "customer_owned_ipv4_pool": "${var.customer_owned_ipv4_pool}",
+                "desync_mitigation_mode": "${var.desync_mitigation_mode}",
+                "dns_record_client_routing_policy": "${var.dns_record_client_routing_policy}",
+                "drop_invalid_header_fields": "${var.drop_invalid_header_fields}",
+                "enable_cross_zone_load_balancing": "${var.enable_cross_zone_load_balancing}",
+                "enable_deletion_protection": "${var.enable_deletion_protection}",
+                "enable_http2": "${var.enable_http2}",
+                "enable_tls_version_and_cipher_suite_headers": "${var.enable_tls_version_and_cipher_suite_headers}",
+                "enable_waf_fail_open": "${var.enable_waf_fail_open}",
+                "enable_xff_client_port": "${var.enable_xff_client_port}",
+                "enforce_security_group_inbound_rules_on_private_link_traffic": "${var.enforce_security_group_inbound_rules_on_private_link_traffic}",
+                "idle_timeout": "${var.idle_timeout}",
+                "internal": "${var.internal}",
+                "ip_address_type": "${var.ip_address_type}",
+                "load_balancer_type": "${var.load_balancer_type}",
+                "name": "${var.name}",
+                "name_prefix": "${var.name_prefix}",
+                "preserve_host_header": "${var.preserve_host_header}",
+                "security_groups": "${var.create_security_group ? concat(['${aws_security_group.this[0].id}'], var.security_groups) : var.security_groups}",
+                "subnets": "${var.subnets}",
+                "tags": "${local.tags}",
+                "xff_header_processing_mode": "${var.xff_header_processing_mode}",
+                "timeouts": [
+                    {
+                        "create": "${try(var.timeouts.create, None)}",
+                        "update": "${try(var.timeouts.update, None)}",
+                        "delete": "${try(var.timeouts.delete, None)}"
+                    }
+                ],
+                "lifecycle": [
+                    {
+                        "ignore_changes": [
+                            "${tags[\"elasticbeanstalk:shared-elb-environment-count\"]}"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "aws_lb_listener": {
+                "this": {
+                    "for_each": "${{for k , v in var.listeners : k => v if local.create}}",
+                    "alpn_policy": "${try(each.value.alpn_policy, None)}",
+                    "certificate_arn": "${try(each.value.certificate_arn, None)}",
+                    "dynamic": [
+                        {
+                            "default_action": {
+                                "for_each": "${lookup(each.value, \"authenticate_cognito\", None) != None ? ['${each.value.authenticate_cognito}'] : []}",
+                                "content": [
+                                    {
+                                        "authenticate_cognito": [
+                                            {
+                                                "authentication_request_extra_params": "${try(default_action.value.authentication_request_extra_params, None)}",
+                                                "on_unauthenticated_request": "${try(default_action.value.on_unauthenticated_request, None)}",
+                                                "scope": "${try(default_action.value.scope, None)}",
+                                                "session_cookie_name": "${try(default_action.value.session_cookie_name, None)}",
+                                                "session_timeout": "${try(default_action.value.session_timeout, None)}",
+                                                "user_pool_arn": "${default_action.value.user_pool_arn}",
+                                                "user_pool_client_id": "${default_action.value.user_pool_client_id}",
+                                                "user_pool_domain": "${default_action.value.user_pool_domain}"
+                                            }
+                                        ],
+                                        "order": "${try(default_action.value.order, None)}",
+                                        "type": "authenticate-cognito"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "default_action": {
+                                "for_each": "${lookup(each.value, \"authenticate_oidc\", None) != None ? ['${each.value.authenticate_oidc}'] : []}",
+                                "content": [
+                                    {
+                                        "authenticate_oidc": [
+                                            {
+                                                "authentication_request_extra_params": "${try(default_action.value.authentication_request_extra_params, None)}",
+                                                "authorization_endpoint": "${default_action.value.authorization_endpoint}",
+                                                "client_id": "${default_action.value.client_id}",
+                                                "client_secret": "${default_action.value.client_secret}",
+                                                "issuer": "${default_action.value.issuer}",
+                                                "on_unauthenticated_request": "${try(default_action.value.on_unauthenticated_request, None)}",
+                                                "scope": "${try(default_action.value.scope, None)}",
+                                                "session_cookie_name": "${try(default_action.value.session_cookie_name, None)}",
+                                                "session_timeout": "${try(default_action.value.session_timeout, None)}",
+                                                "token_endpoint": "${default_action.value.token_endpoint}",
+                                                "user_info_endpoint": "${default_action.value.user_info_endpoint}"
+                                            }
+                                        ],
+                                        "order": "${try(default_action.value.order, None)}",
+                                        "type": "authenticate-oidc"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "default_action": {
+                                "for_each": "${lookup(each.value, \"fixed_response\", None) != None ? ['${each.value.fixed_response}'] : []}",
+                                "content": [
+                                    {
+                                        "fixed_response": [
+                                            {
+                                                "content_type": "${default_action.value.content_type}",
+                                                "message_body": "${try(default_action.value.message_body, None)}",
+                                                "status_code": "${try(default_action.value.status_code, None)}"
+                                            }
+                                        ],
+                                        "order": "${try(default_action.value.order, None)}",
+                                        "type": "fixed-response"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "default_action": {
+                                "for_each": "${lookup(each.value, \"forward\", None) != None ? ['${each.value.forward}'] : []}",
+                                "content": [
+                                    {
+                                        "order": "${try(default_action.value.order, None)}",
+                                        "target_group_arn": "${try(default_action.value.value.target_group_arn, aws_lb_target_group.this[default_action.value.target_group_key].arn, None)}",
+                                        "type": "forward"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "default_action": {
+                                "for_each": "${lookup(each.value, \"weighted_forward\", None) != None ? ['${each.value.weighted_forward}'] : []}",
+                                "content": [
+                                    {
+                                        "forward": [
+                                            {
+                                                "dynamic": [
+                                                    {
+                                                        "target_group": {
+                                                            "for_each": "${try(default_action.value.target_groups, [])}",
+                                                            "content": [
+                                                                {
+                                                                    "arn": "${try(target_group.value.arn, aws_lb_target_group.this[target_group.value.target_group_key].arn, None)}",
+                                                                    "weight": "${try(target_group.value.weight, None)}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "stickiness": {
+                                                            "for_each": "${try(['${default_action.value.stickiness}'], [])}",
+                                                            "content": [
+                                                                {
+                                                                    "duration": "${try(stickiness.value.duration, 60)}",
+                                                                    "enabled": "${try(stickiness.value.enabled, None)}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "order": "${try(default_action.value.order, None)}",
+                                        "type": "forward"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "default_action": {
+                                "for_each": "${lookup(each.value, \"redirect\", None) != None ? ['${each.value.redirect}'] : []}",
+                                "content": [
+                                    {
+                                        "order": "${try(default_action.value.order, None)}",
+                                        "redirect": [
+                                            {
+                                                "host": "${try(default_action.value.host, None)}",
+                                                "path": "${try(default_action.value.path, None)}",
+                                                "port": "${try(default_action.value.port, None)}",
+                                                "protocol": "${try(default_action.value.protocol, None)}",
+                                                "query": "${try(default_action.value.query, None)}",
+                                                "status_code": "${default_action.value.status_code}"
+                                            }
+                                        ],
+                                        "type": "redirect"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "mutual_authentication": {
+                                "for_each": "${lookup(each.value, \"mutual_authentication\", None) != None ? ['${each.value.mutual_authentication}'] : []}",
+                                "content": [
+                                    {
+                                        "mode": "${mutual_authentication.value.mode}",
+                                        "trust_store_arn": "${try(mutual_authentication.value.trust_store_arn, None)}",
+                                        "ignore_client_certificate_expiry": "${try(mutual_authentication.value.ignore_client_certificate_expiry, None)}"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "load_balancer_arn": "${aws_lb.this[0].arn}",
+                    "port": "${try(each.value.port, var.default_port)}",
+                    "protocol": "${try(each.value.protocol, var.default_protocol)}",
+                    "ssl_policy": "${contains(['HTTPS', 'TLS'], try(each.value.protocol, var.default_protocol)) ? try(each.value.ssl_policy, \"ELBSecurityPolicy-TLS13-1-2-Res-2021-06\") : try(each.value.ssl_policy, None)}",
+                    "tags": "${merge(local.tags, try(each.value.tags, {}))}"
+                }
+            },
+            "resource_id": "aws_lb_listener.this",
+            "resource_type": "aws_lb_listener",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.listeners : k => v if local.create}}",
+                "alpn_policy": "${try(each.value.alpn_policy, None)}",
+                "certificate_arn": "${try(each.value.certificate_arn, None)}",
+                "dynamic": [
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"authenticate_cognito\", None) != None ? ['${each.value.authenticate_cognito}'] : []}",
+                            "content": [
+                                {
+                                    "authenticate_cognito": [
+                                        {
+                                            "authentication_request_extra_params": "${try(default_action.value.authentication_request_extra_params, None)}",
+                                            "on_unauthenticated_request": "${try(default_action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(default_action.value.scope, None)}",
+                                            "session_cookie_name": "${try(default_action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(default_action.value.session_timeout, None)}",
+                                            "user_pool_arn": "${default_action.value.user_pool_arn}",
+                                            "user_pool_client_id": "${default_action.value.user_pool_client_id}",
+                                            "user_pool_domain": "${default_action.value.user_pool_domain}"
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "authenticate-cognito"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"authenticate_oidc\", None) != None ? ['${each.value.authenticate_oidc}'] : []}",
+                            "content": [
+                                {
+                                    "authenticate_oidc": [
+                                        {
+                                            "authentication_request_extra_params": "${try(default_action.value.authentication_request_extra_params, None)}",
+                                            "authorization_endpoint": "${default_action.value.authorization_endpoint}",
+                                            "client_id": "${default_action.value.client_id}",
+                                            "client_secret": "${default_action.value.client_secret}",
+                                            "issuer": "${default_action.value.issuer}",
+                                            "on_unauthenticated_request": "${try(default_action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(default_action.value.scope, None)}",
+                                            "session_cookie_name": "${try(default_action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(default_action.value.session_timeout, None)}",
+                                            "token_endpoint": "${default_action.value.token_endpoint}",
+                                            "user_info_endpoint": "${default_action.value.user_info_endpoint}"
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "authenticate-oidc"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"fixed_response\", None) != None ? ['${each.value.fixed_response}'] : []}",
+                            "content": [
+                                {
+                                    "fixed_response": [
+                                        {
+                                            "content_type": "${default_action.value.content_type}",
+                                            "message_body": "${try(default_action.value.message_body, None)}",
+                                            "status_code": "${try(default_action.value.status_code, None)}"
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "fixed-response"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"forward\", None) != None ? ['${each.value.forward}'] : []}",
+                            "content": [
+                                {
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "target_group_arn": "${try(default_action.value.value.target_group_arn, aws_lb_target_group.this[default_action.value.target_group_key].arn, None)}",
+                                    "type": "forward"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"weighted_forward\", None) != None ? ['${each.value.weighted_forward}'] : []}",
+                            "content": [
+                                {
+                                    "forward": [
+                                        {
+                                            "dynamic": [
+                                                {
+                                                    "target_group": {
+                                                        "for_each": "${try(default_action.value.target_groups, [])}",
+                                                        "content": [
+                                                            {
+                                                                "arn": "${try(target_group.value.arn, aws_lb_target_group.this[target_group.value.target_group_key].arn, None)}",
+                                                                "weight": "${try(target_group.value.weight, None)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "stickiness": {
+                                                        "for_each": "${try(['${default_action.value.stickiness}'], [])}",
+                                                        "content": [
+                                                            {
+                                                                "duration": "${try(stickiness.value.duration, 60)}",
+                                                                "enabled": "${try(stickiness.value.enabled, None)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "forward"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"redirect\", None) != None ? ['${each.value.redirect}'] : []}",
+                            "content": [
+                                {
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "redirect": [
+                                        {
+                                            "host": "${try(default_action.value.host, None)}",
+                                            "path": "${try(default_action.value.path, None)}",
+                                            "port": "${try(default_action.value.port, None)}",
+                                            "protocol": "${try(default_action.value.protocol, None)}",
+                                            "query": "${try(default_action.value.query, None)}",
+                                            "status_code": "${default_action.value.status_code}"
+                                        }
+                                    ],
+                                    "type": "redirect"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "mutual_authentication": {
+                            "for_each": "${lookup(each.value, \"mutual_authentication\", None) != None ? ['${each.value.mutual_authentication}'] : []}",
+                            "content": [
+                                {
+                                    "mode": "${mutual_authentication.value.mode}",
+                                    "trust_store_arn": "${try(mutual_authentication.value.trust_store_arn, None)}",
+                                    "ignore_client_certificate_expiry": "${try(mutual_authentication.value.ignore_client_certificate_expiry, None)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "load_balancer_arn": "${aws_lb.this[0].arn}",
+                "port": "${try(each.value.port, var.default_port)}",
+                "protocol": "${try(each.value.protocol, var.default_protocol)}",
+                "ssl_policy": "${contains(['HTTPS', 'TLS'], try(each.value.protocol, var.default_protocol)) ? try(each.value.ssl_policy, \"ELBSecurityPolicy-TLS13-1-2-Res-2021-06\") : try(each.value.ssl_policy, None)}",
+                "tags": "${merge(local.tags, try(each.value.tags, {}))}"
+            },
+            "Type": "aws_lb_listener",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in var.listeners : k => v if local.create}}",
+                "alpn_policy": "${try(each.value.alpn_policy, None)}",
+                "certificate_arn": "${try(each.value.certificate_arn, None)}",
+                "dynamic": [
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"authenticate_cognito\", None) != None ? ['${each.value.authenticate_cognito}'] : []}",
+                            "content": [
+                                {
+                                    "authenticate_cognito": [
+                                        {
+                                            "authentication_request_extra_params": "${try(default_action.value.authentication_request_extra_params, None)}",
+                                            "on_unauthenticated_request": "${try(default_action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(default_action.value.scope, None)}",
+                                            "session_cookie_name": "${try(default_action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(default_action.value.session_timeout, None)}",
+                                            "user_pool_arn": "${default_action.value.user_pool_arn}",
+                                            "user_pool_client_id": "${default_action.value.user_pool_client_id}",
+                                            "user_pool_domain": "${default_action.value.user_pool_domain}"
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "authenticate-cognito"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"authenticate_oidc\", None) != None ? ['${each.value.authenticate_oidc}'] : []}",
+                            "content": [
+                                {
+                                    "authenticate_oidc": [
+                                        {
+                                            "authentication_request_extra_params": "${try(default_action.value.authentication_request_extra_params, None)}",
+                                            "authorization_endpoint": "${default_action.value.authorization_endpoint}",
+                                            "client_id": "${default_action.value.client_id}",
+                                            "client_secret": "${default_action.value.client_secret}",
+                                            "issuer": "${default_action.value.issuer}",
+                                            "on_unauthenticated_request": "${try(default_action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(default_action.value.scope, None)}",
+                                            "session_cookie_name": "${try(default_action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(default_action.value.session_timeout, None)}",
+                                            "token_endpoint": "${default_action.value.token_endpoint}",
+                                            "user_info_endpoint": "${default_action.value.user_info_endpoint}"
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "authenticate-oidc"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"fixed_response\", None) != None ? ['${each.value.fixed_response}'] : []}",
+                            "content": [
+                                {
+                                    "fixed_response": [
+                                        {
+                                            "content_type": "${default_action.value.content_type}",
+                                            "message_body": "${try(default_action.value.message_body, None)}",
+                                            "status_code": "${try(default_action.value.status_code, None)}"
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "fixed-response"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"forward\", None) != None ? ['${each.value.forward}'] : []}",
+                            "content": [
+                                {
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "target_group_arn": "${try(default_action.value.value.target_group_arn, aws_lb_target_group.this[default_action.value.target_group_key].arn, None)}",
+                                    "type": "forward"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"weighted_forward\", None) != None ? ['${each.value.weighted_forward}'] : []}",
+                            "content": [
+                                {
+                                    "forward": [
+                                        {
+                                            "dynamic": [
+                                                {
+                                                    "target_group": {
+                                                        "for_each": "${try(default_action.value.target_groups, [])}",
+                                                        "content": [
+                                                            {
+                                                                "arn": "${try(target_group.value.arn, aws_lb_target_group.this[target_group.value.target_group_key].arn, None)}",
+                                                                "weight": "${try(target_group.value.weight, None)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "stickiness": {
+                                                        "for_each": "${try(['${default_action.value.stickiness}'], [])}",
+                                                        "content": [
+                                                            {
+                                                                "duration": "${try(stickiness.value.duration, 60)}",
+                                                                "enabled": "${try(stickiness.value.enabled, None)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "type": "forward"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "default_action": {
+                            "for_each": "${lookup(each.value, \"redirect\", None) != None ? ['${each.value.redirect}'] : []}",
+                            "content": [
+                                {
+                                    "order": "${try(default_action.value.order, None)}",
+                                    "redirect": [
+                                        {
+                                            "host": "${try(default_action.value.host, None)}",
+                                            "path": "${try(default_action.value.path, None)}",
+                                            "port": "${try(default_action.value.port, None)}",
+                                            "protocol": "${try(default_action.value.protocol, None)}",
+                                            "query": "${try(default_action.value.query, None)}",
+                                            "status_code": "${default_action.value.status_code}"
+                                        }
+                                    ],
+                                    "type": "redirect"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "mutual_authentication": {
+                            "for_each": "${lookup(each.value, \"mutual_authentication\", None) != None ? ['${each.value.mutual_authentication}'] : []}",
+                            "content": [
+                                {
+                                    "mode": "${mutual_authentication.value.mode}",
+                                    "trust_store_arn": "${try(mutual_authentication.value.trust_store_arn, None)}",
+                                    "ignore_client_certificate_expiry": "${try(mutual_authentication.value.ignore_client_certificate_expiry, None)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "load_balancer_arn": "${aws_lb.this[0].arn}",
+                "port": "${try(each.value.port, var.default_port)}",
+                "protocol": "${try(each.value.protocol, var.default_protocol)}",
+                "ssl_policy": "${contains(['HTTPS', 'TLS'], try(each.value.protocol, var.default_protocol)) ? try(each.value.ssl_policy, \"ELBSecurityPolicy-TLS13-1-2-Res-2021-06\") : try(each.value.ssl_policy, None)}",
+                "tags": "${merge(local.tags, try(each.value.tags, {}))}"
+            }
+        },
+        {
+            "aws_lb_listener_rule": {
+                "this": {
+                    "for_each": "${{for v in local.listener_rules : \"${v.listener_key}/${v.rule_key}\" => v if local.create}}",
+                    "listener_arn": "${try(each.value.listener_arn, aws_lb_listener.this[each.value.listener_key].arn)}",
+                    "priority": "${try(each.value.priority, None)}",
+                    "dynamic": [
+                        {
+                            "action": {
+                                "for_each": "${[for action in each.value.actions : action if action.type == \"authenticate-cognito\"]}",
+                                "content": [
+                                    {
+                                        "type": "authenticate-cognito",
+                                        "order": "${try(action.value.order, None)}",
+                                        "authenticate_cognito": [
+                                            {
+                                                "authentication_request_extra_params": "${try(action.value.authentication_request_extra_params, None)}",
+                                                "on_unauthenticated_request": "${try(action.value.on_unauthenticated_request, None)}",
+                                                "scope": "${try(action.value.scope, None)}",
+                                                "session_cookie_name": "${try(action.value.session_cookie_name, None)}",
+                                                "session_timeout": "${try(action.value.session_timeout, None)}",
+                                                "user_pool_arn": "${action.value.user_pool_arn}",
+                                                "user_pool_client_id": "${action.value.user_pool_client_id}",
+                                                "user_pool_domain": "${action.value.user_pool_domain}"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "action": {
+                                "for_each": "${[for action in each.value.actions : action if action.type == \"authenticate-oidc\"]}",
+                                "content": [
+                                    {
+                                        "type": "authenticate-oidc",
+                                        "order": "${try(action.value.order, None)}",
+                                        "authenticate_oidc": [
+                                            {
+                                                "authentication_request_extra_params": "${try(action.value.authentication_request_extra_params, None)}",
+                                                "authorization_endpoint": "${action.value.authorization_endpoint}",
+                                                "client_id": "${action.value.client_id}",
+                                                "client_secret": "${action.value.client_secret}",
+                                                "issuer": "${action.value.issuer}",
+                                                "on_unauthenticated_request": "${try(action.value.on_unauthenticated_request, None)}",
+                                                "scope": "${try(action.value.scope, None)}",
+                                                "session_cookie_name": "${try(action.value.session_cookie_name, None)}",
+                                                "session_timeout": "${try(action.value.session_timeout, None)}",
+                                                "token_endpoint": "${action.value.token_endpoint}",
+                                                "user_info_endpoint": "${action.value.user_info_endpoint}"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "action": {
+                                "for_each": "${[for action in each.value.actions : action if action.type == \"redirect\"]}",
+                                "content": [
+                                    {
+                                        "type": "redirect",
+                                        "order": "${try(action.value.order, None)}",
+                                        "redirect": [
+                                            {
+                                                "host": "${try(action.value.host, None)}",
+                                                "path": "${try(action.value.path, None)}",
+                                                "port": "${try(action.value.port, None)}",
+                                                "protocol": "${try(action.value.protocol, None)}",
+                                                "query": "${try(action.value.query, None)}",
+                                                "status_code": "${action.value.status_code}"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "action": {
+                                "for_each": "${[for action in each.value.actions : action if action.type == \"fixed-response\"]}",
+                                "content": [
+                                    {
+                                        "type": "fixed-response",
+                                        "order": "${try(action.value.order, None)}",
+                                        "fixed_response": [
+                                            {
+                                                "content_type": "${action.value.content_type}",
+                                                "message_body": "${try(action.value.message_body, None)}",
+                                                "status_code": "${try(action.value.status_code, None)}"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "action": {
+                                "for_each": "${[for action in each.value.actions : action if action.type == \"forward\"]}",
+                                "content": [
+                                    {
+                                        "type": "forward",
+                                        "order": "${try(action.value.order, None)}",
+                                        "target_group_arn": "${try(action.value.target_group_arn, aws_lb_target_group.this[action.value.target_group_key].arn, None)}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "action": {
+                                "for_each": "${[for action in each.value.actions : action if action.type == \"weighted-forward\"]}",
+                                "content": [
+                                    {
+                                        "type": "forward",
+                                        "order": "${try(action.value.order, None)}",
+                                        "forward": [
+                                            {
+                                                "dynamic": [
+                                                    {
+                                                        "target_group": {
+                                                            "for_each": "${try(action.value.target_groups, [])}",
+                                                            "content": [
+                                                                {
+                                                                    "arn": "${try(target_group.value.arn, aws_lb_target_group.this[target_group.value.target_group_key].arn)}",
+                                                                    "weight": "${try(target_group.value.weight, None)}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "stickiness": {
+                                                            "for_each": "${try(['${action.value.stickiness}'], [])}",
+                                                            "content": [
+                                                                {
+                                                                    "enabled": "${try(stickiness.value.enabled, None)}",
+                                                                    "duration": "${try(stickiness.value.duration, 60)}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "condition": {
+                                "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"host_header\")]}",
+                                "content": [
+                                    {
+                                        "dynamic": [
+                                            {
+                                                "host_header": {
+                                                    "for_each": "${try(['${condition.value.host_header}'], [])}",
+                                                    "content": [
+                                                        {
+                                                            "values": "${host_header.value.values}"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "condition": {
+                                "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"http_header\")]}",
+                                "content": [
+                                    {
+                                        "dynamic": [
+                                            {
+                                                "http_header": {
+                                                    "for_each": "${try(['${condition.value.http_header}'], [])}",
+                                                    "content": [
+                                                        {
+                                                            "http_header_name": "${http_header.value.http_header_name}",
+                                                            "values": "${http_header.value.values}"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "condition": {
+                                "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"http_request_method\")]}",
+                                "content": [
+                                    {
+                                        "dynamic": [
+                                            {
+                                                "http_request_method": {
+                                                    "for_each": "${try(['${condition.value.http_request_method}'], [])}",
+                                                    "content": [
+                                                        {
+                                                            "values": "${http_request_method.value.values}"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "condition": {
+                                "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"path_pattern\")]}",
+                                "content": [
+                                    {
+                                        "dynamic": [
+                                            {
+                                                "path_pattern": {
+                                                    "for_each": "${try(['${condition.value.path_pattern}'], [])}",
+                                                    "content": [
+                                                        {
+                                                            "values": "${path_pattern.value.values}"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "condition": {
+                                "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"query_string\")]}",
+                                "content": [
+                                    {
+                                        "dynamic": [
+                                            {
+                                                "query_string": {
+                                                    "for_each": "${try(['${condition.value.query_string}'], [])}",
+                                                    "content": [
+                                                        {
+                                                            "key": "${try(query_string.value.key, None)}",
+                                                            "value": "${query_string.value.value}"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "condition": {
+                                "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"source_ip\")]}",
+                                "content": [
+                                    {
+                                        "dynamic": [
+                                            {
+                                                "source_ip": {
+                                                    "for_each": "${try(['${condition.value.source_ip}'], [])}",
+                                                    "content": [
+                                                        {
+                                                            "values": "${source_ip.value.values}"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "tags": "${merge(local.tags, try(each.value.tags, {}))}"
+                }
+            },
+            "resource_id": "aws_lb_listener_rule.this",
+            "resource_type": "aws_lb_listener_rule",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for v in local.listener_rules : \"${v.listener_key}/${v.rule_key}\" => v if local.create}}",
+                "listener_arn": "${try(each.value.listener_arn, aws_lb_listener.this[each.value.listener_key].arn)}",
+                "priority": "${try(each.value.priority, None)}",
+                "dynamic": [
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"authenticate-cognito\"]}",
+                            "content": [
+                                {
+                                    "type": "authenticate-cognito",
+                                    "order": "${try(action.value.order, None)}",
+                                    "authenticate_cognito": [
+                                        {
+                                            "authentication_request_extra_params": "${try(action.value.authentication_request_extra_params, None)}",
+                                            "on_unauthenticated_request": "${try(action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(action.value.scope, None)}",
+                                            "session_cookie_name": "${try(action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(action.value.session_timeout, None)}",
+                                            "user_pool_arn": "${action.value.user_pool_arn}",
+                                            "user_pool_client_id": "${action.value.user_pool_client_id}",
+                                            "user_pool_domain": "${action.value.user_pool_domain}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"authenticate-oidc\"]}",
+                            "content": [
+                                {
+                                    "type": "authenticate-oidc",
+                                    "order": "${try(action.value.order, None)}",
+                                    "authenticate_oidc": [
+                                        {
+                                            "authentication_request_extra_params": "${try(action.value.authentication_request_extra_params, None)}",
+                                            "authorization_endpoint": "${action.value.authorization_endpoint}",
+                                            "client_id": "${action.value.client_id}",
+                                            "client_secret": "${action.value.client_secret}",
+                                            "issuer": "${action.value.issuer}",
+                                            "on_unauthenticated_request": "${try(action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(action.value.scope, None)}",
+                                            "session_cookie_name": "${try(action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(action.value.session_timeout, None)}",
+                                            "token_endpoint": "${action.value.token_endpoint}",
+                                            "user_info_endpoint": "${action.value.user_info_endpoint}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"redirect\"]}",
+                            "content": [
+                                {
+                                    "type": "redirect",
+                                    "order": "${try(action.value.order, None)}",
+                                    "redirect": [
+                                        {
+                                            "host": "${try(action.value.host, None)}",
+                                            "path": "${try(action.value.path, None)}",
+                                            "port": "${try(action.value.port, None)}",
+                                            "protocol": "${try(action.value.protocol, None)}",
+                                            "query": "${try(action.value.query, None)}",
+                                            "status_code": "${action.value.status_code}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"fixed-response\"]}",
+                            "content": [
+                                {
+                                    "type": "fixed-response",
+                                    "order": "${try(action.value.order, None)}",
+                                    "fixed_response": [
+                                        {
+                                            "content_type": "${action.value.content_type}",
+                                            "message_body": "${try(action.value.message_body, None)}",
+                                            "status_code": "${try(action.value.status_code, None)}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"forward\"]}",
+                            "content": [
+                                {
+                                    "type": "forward",
+                                    "order": "${try(action.value.order, None)}",
+                                    "target_group_arn": "${try(action.value.target_group_arn, aws_lb_target_group.this[action.value.target_group_key].arn, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"weighted-forward\"]}",
+                            "content": [
+                                {
+                                    "type": "forward",
+                                    "order": "${try(action.value.order, None)}",
+                                    "forward": [
+                                        {
+                                            "dynamic": [
+                                                {
+                                                    "target_group": {
+                                                        "for_each": "${try(action.value.target_groups, [])}",
+                                                        "content": [
+                                                            {
+                                                                "arn": "${try(target_group.value.arn, aws_lb_target_group.this[target_group.value.target_group_key].arn)}",
+                                                                "weight": "${try(target_group.value.weight, None)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "stickiness": {
+                                                        "for_each": "${try(['${action.value.stickiness}'], [])}",
+                                                        "content": [
+                                                            {
+                                                                "enabled": "${try(stickiness.value.enabled, None)}",
+                                                                "duration": "${try(stickiness.value.duration, 60)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"host_header\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "host_header": {
+                                                "for_each": "${try(['${condition.value.host_header}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${host_header.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"http_header\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "http_header": {
+                                                "for_each": "${try(['${condition.value.http_header}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "http_header_name": "${http_header.value.http_header_name}",
+                                                        "values": "${http_header.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"http_request_method\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "http_request_method": {
+                                                "for_each": "${try(['${condition.value.http_request_method}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${http_request_method.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"path_pattern\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "path_pattern": {
+                                                "for_each": "${try(['${condition.value.path_pattern}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${path_pattern.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"query_string\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "query_string": {
+                                                "for_each": "${try(['${condition.value.query_string}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "key": "${try(query_string.value.key, None)}",
+                                                        "value": "${query_string.value.value}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"source_ip\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "source_ip": {
+                                                "for_each": "${try(['${condition.value.source_ip}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${source_ip.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tags": "${merge(local.tags, try(each.value.tags, {}))}"
+            },
+            "Type": "aws_lb_listener_rule",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for v in local.listener_rules : \"${v.listener_key}/${v.rule_key}\" => v if local.create}}",
+                "listener_arn": "${try(each.value.listener_arn, aws_lb_listener.this[each.value.listener_key].arn)}",
+                "priority": "${try(each.value.priority, None)}",
+                "dynamic": [
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"authenticate-cognito\"]}",
+                            "content": [
+                                {
+                                    "type": "authenticate-cognito",
+                                    "order": "${try(action.value.order, None)}",
+                                    "authenticate_cognito": [
+                                        {
+                                            "authentication_request_extra_params": "${try(action.value.authentication_request_extra_params, None)}",
+                                            "on_unauthenticated_request": "${try(action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(action.value.scope, None)}",
+                                            "session_cookie_name": "${try(action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(action.value.session_timeout, None)}",
+                                            "user_pool_arn": "${action.value.user_pool_arn}",
+                                            "user_pool_client_id": "${action.value.user_pool_client_id}",
+                                            "user_pool_domain": "${action.value.user_pool_domain}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"authenticate-oidc\"]}",
+                            "content": [
+                                {
+                                    "type": "authenticate-oidc",
+                                    "order": "${try(action.value.order, None)}",
+                                    "authenticate_oidc": [
+                                        {
+                                            "authentication_request_extra_params": "${try(action.value.authentication_request_extra_params, None)}",
+                                            "authorization_endpoint": "${action.value.authorization_endpoint}",
+                                            "client_id": "${action.value.client_id}",
+                                            "client_secret": "${action.value.client_secret}",
+                                            "issuer": "${action.value.issuer}",
+                                            "on_unauthenticated_request": "${try(action.value.on_unauthenticated_request, None)}",
+                                            "scope": "${try(action.value.scope, None)}",
+                                            "session_cookie_name": "${try(action.value.session_cookie_name, None)}",
+                                            "session_timeout": "${try(action.value.session_timeout, None)}",
+                                            "token_endpoint": "${action.value.token_endpoint}",
+                                            "user_info_endpoint": "${action.value.user_info_endpoint}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"redirect\"]}",
+                            "content": [
+                                {
+                                    "type": "redirect",
+                                    "order": "${try(action.value.order, None)}",
+                                    "redirect": [
+                                        {
+                                            "host": "${try(action.value.host, None)}",
+                                            "path": "${try(action.value.path, None)}",
+                                            "port": "${try(action.value.port, None)}",
+                                            "protocol": "${try(action.value.protocol, None)}",
+                                            "query": "${try(action.value.query, None)}",
+                                            "status_code": "${action.value.status_code}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"fixed-response\"]}",
+                            "content": [
+                                {
+                                    "type": "fixed-response",
+                                    "order": "${try(action.value.order, None)}",
+                                    "fixed_response": [
+                                        {
+                                            "content_type": "${action.value.content_type}",
+                                            "message_body": "${try(action.value.message_body, None)}",
+                                            "status_code": "${try(action.value.status_code, None)}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"forward\"]}",
+                            "content": [
+                                {
+                                    "type": "forward",
+                                    "order": "${try(action.value.order, None)}",
+                                    "target_group_arn": "${try(action.value.target_group_arn, aws_lb_target_group.this[action.value.target_group_key].arn, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "action": {
+                            "for_each": "${[for action in each.value.actions : action if action.type == \"weighted-forward\"]}",
+                            "content": [
+                                {
+                                    "type": "forward",
+                                    "order": "${try(action.value.order, None)}",
+                                    "forward": [
+                                        {
+                                            "dynamic": [
+                                                {
+                                                    "target_group": {
+                                                        "for_each": "${try(action.value.target_groups, [])}",
+                                                        "content": [
+                                                            {
+                                                                "arn": "${try(target_group.value.arn, aws_lb_target_group.this[target_group.value.target_group_key].arn)}",
+                                                                "weight": "${try(target_group.value.weight, None)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "stickiness": {
+                                                        "for_each": "${try(['${action.value.stickiness}'], [])}",
+                                                        "content": [
+                                                            {
+                                                                "enabled": "${try(stickiness.value.enabled, None)}",
+                                                                "duration": "${try(stickiness.value.duration, 60)}"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"host_header\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "host_header": {
+                                                "for_each": "${try(['${condition.value.host_header}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${host_header.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"http_header\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "http_header": {
+                                                "for_each": "${try(['${condition.value.http_header}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "http_header_name": "${http_header.value.http_header_name}",
+                                                        "values": "${http_header.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"http_request_method\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "http_request_method": {
+                                                "for_each": "${try(['${condition.value.http_request_method}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${http_request_method.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"path_pattern\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "path_pattern": {
+                                                "for_each": "${try(['${condition.value.path_pattern}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${path_pattern.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"query_string\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "query_string": {
+                                                "for_each": "${try(['${condition.value.query_string}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "key": "${try(query_string.value.key, None)}",
+                                                        "value": "${query_string.value.value}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "condition": {
+                            "for_each": "${[for condition in each.value.conditions : condition if contains(keys(condition), \"source_ip\")]}",
+                            "content": [
+                                {
+                                    "dynamic": [
+                                        {
+                                            "source_ip": {
+                                                "for_each": "${try(['${condition.value.source_ip}'], [])}",
+                                                "content": [
+                                                    {
+                                                        "values": "${source_ip.value.values}"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tags": "${merge(local.tags, try(each.value.tags, {}))}"
+            }
+        },
+        {
+            "aws_lb_listener_certificate": {
+                "this": {
+                    "for_each": "${{for k , v in local.additional_certs : k => v if local.create}}",
+                    "listener_arn": "${aws_lb_listener.this[each.value.listener_key].arn}",
+                    "certificate_arn": "${each.value.certificate_arn}"
+                }
+            },
+            "resource_id": "aws_lb_listener_certificate.this",
+            "resource_type": "aws_lb_listener_certificate",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in local.additional_certs : k => v if local.create}}",
+                "listener_arn": "${aws_lb_listener.this[each.value.listener_key].arn}",
+                "certificate_arn": "${each.value.certificate_arn}"
+            },
+            "Type": "aws_lb_listener_certificate",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in local.additional_certs : k => v if local.create}}",
+                "listener_arn": "${aws_lb_listener.this[each.value.listener_key].arn}",
+                "certificate_arn": "${each.value.certificate_arn}"
+            }
+        },
+        {
+            "aws_lb_target_group": {
+                "this": {
+                    "for_each": "${{for k , v in var.target_groups : k => v if local.create}}",
+                    "connection_termination": "${try(each.value.connection_termination, None)}",
+                    "deregistration_delay": "${try(each.value.deregistration_delay, None)}",
+                    "dynamic": [
+                        {
+                            "health_check": {
+                                "for_each": "${try(['${each.value.health_check}'], {})}",
+                                "content": [
+                                    {
+                                        "enabled": "${try(health_check.value.enabled, None)}",
+                                        "healthy_threshold": "${try(health_check.value.healthy_threshold, None)}",
+                                        "interval": "${try(health_check.value.interval, None)}",
+                                        "matcher": "${try(health_check.value.matcher, None)}",
+                                        "path": "${try(health_check.value.path, None)}",
+                                        "port": "${try(health_check.value.port, None)}",
+                                        "protocol": "${try(health_check.value.protocol, None)}",
+                                        "timeout": "${try(health_check.value.timeout, None)}",
+                                        "unhealthy_threshold": "${try(health_check.value.unhealthy_threshold, None)}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stickiness": {
+                                "for_each": "${each.value.stickiness != None ? ['${each.value.stickiness}'] : []}",
+                                "content": [
+                                    {
+                                        "cookie_duration": "${try(stickiness.value.cookie_duration, None)}",
+                                        "cookie_name": "${try(stickiness.value.cookie_name, None)}",
+                                        "enabled": "${try(stickiness.value.enabled, True)}",
+                                        "type": "${var.load_balancer_type == \"network\" ? stickiness != None ? stickiness.value.type : None : None}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "target_failover": {
+                                "for_each": "${try(lookup(each.value, \"target_failover\", None), None) != None ? ['${each.value.target_failover}'] : []}",
+                                "content": [
+                                    {
+                                        "on_deregistration": "${target_failover.value.on_deregistration}",
+                                        "on_unhealthy": "${target_failover.value.on_unhealthy}"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "target_health_state": {
+                                "for_each": "${try(['${each.value.target_health_state}'], {})}",
+                                "content": [
+                                    {
+                                        "enable_unhealthy_connection_termination": "${try(target_health_state.value.enable_unhealthy_connection_termination, True)}"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "ip_address_type": "${try(each.value.ip_address_type, None)}",
+                    "lambda_multi_value_headers_enabled": "${try(each.value.lambda_multi_value_headers_enabled, None)}",
+                    "load_balancing_algorithm_type": "${try(each.value.load_balancing_algorithm_type, None)}",
+                    "load_balancing_anomaly_mitigation": "${try(each.value.load_balancing_anomaly_mitigation, None)}",
+                    "load_balancing_cross_zone_enabled": "${try(each.value.load_balancing_cross_zone_enabled, None)}",
+                    "name": "${try(each.value.name, None)}",
+                    "name_prefix": "${try(each.value.name_prefix, None)}",
+                    "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                    "preserve_client_ip": "${try(each.value.preserve_client_ip, None)}",
+                    "protocol": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.protocol, var.default_protocol)}",
+                    "protocol_version": "${try(each.value.protocol_version, None)}",
+                    "proxy_protocol_v2": "${try(each.value.proxy_protocol_v2, None)}",
+                    "slow_start": "${try(each.value.slow_start, None)}",
+                    "target_type": "${try(each.value.target_type, None)}",
+                    "vpc_id": "${try(var.vpc_id, each.value.vpc_id, None)}",
+                    "tags": "${merge(local.tags, try(each.value.tg_tags, {}))}",
+                    "lifecycle": [
+                        {
+                            "create_before_destroy": true
+                        }
+                    ]
+                }
+            },
+            "resource_id": "aws_lb_target_group.this",
+            "resource_type": "aws_lb_target_group",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.target_groups : k => v if local.create}}",
+                "connection_termination": "${try(each.value.connection_termination, None)}",
+                "deregistration_delay": "${try(each.value.deregistration_delay, None)}",
+                "dynamic": [
+                    {
+                        "health_check": {
+                            "for_each": "${try(['${each.value.health_check}'], {})}",
+                            "content": [
+                                {
+                                    "enabled": "${try(health_check.value.enabled, None)}",
+                                    "healthy_threshold": "${try(health_check.value.healthy_threshold, None)}",
+                                    "interval": "${try(health_check.value.interval, None)}",
+                                    "matcher": "${try(health_check.value.matcher, None)}",
+                                    "path": "${try(health_check.value.path, None)}",
+                                    "port": "${try(health_check.value.port, None)}",
+                                    "protocol": "${try(health_check.value.protocol, None)}",
+                                    "timeout": "${try(health_check.value.timeout, None)}",
+                                    "unhealthy_threshold": "${try(health_check.value.unhealthy_threshold, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "stickiness": {
+                            "for_each": "${each.value.stickiness != None ? ['${each.value.stickiness}'] : []}",
+                            "content": [
+                                {
+                                    "cookie_duration": "${try(stickiness.value.cookie_duration, None)}",
+                                    "cookie_name": "${try(stickiness.value.cookie_name, None)}",
+                                    "enabled": "${try(stickiness.value.enabled, True)}",
+                                    "type": "${var.load_balancer_type == \"network\" ? stickiness != None ? stickiness.value.type : None : None}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "target_failover": {
+                            "for_each": "${try(lookup(each.value, \"target_failover\", None), None) != None ? ['${each.value.target_failover}'] : []}",
+                            "content": [
+                                {
+                                    "on_deregistration": "${target_failover.value.on_deregistration}",
+                                    "on_unhealthy": "${target_failover.value.on_unhealthy}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "target_health_state": {
+                            "for_each": "${try(['${each.value.target_health_state}'], {})}",
+                            "content": [
+                                {
+                                    "enable_unhealthy_connection_termination": "${try(target_health_state.value.enable_unhealthy_connection_termination, True)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "ip_address_type": "${try(each.value.ip_address_type, None)}",
+                "lambda_multi_value_headers_enabled": "${try(each.value.lambda_multi_value_headers_enabled, None)}",
+                "load_balancing_algorithm_type": "${try(each.value.load_balancing_algorithm_type, None)}",
+                "load_balancing_anomaly_mitigation": "${try(each.value.load_balancing_anomaly_mitigation, None)}",
+                "load_balancing_cross_zone_enabled": "${try(each.value.load_balancing_cross_zone_enabled, None)}",
+                "name": "${try(each.value.name, None)}",
+                "name_prefix": "${try(each.value.name_prefix, None)}",
+                "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                "preserve_client_ip": "${try(each.value.preserve_client_ip, None)}",
+                "protocol": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.protocol, var.default_protocol)}",
+                "protocol_version": "${try(each.value.protocol_version, None)}",
+                "proxy_protocol_v2": "${try(each.value.proxy_protocol_v2, None)}",
+                "slow_start": "${try(each.value.slow_start, None)}",
+                "target_type": "${try(each.value.target_type, None)}",
+                "vpc_id": "${try(var.vpc_id, each.value.vpc_id, None)}",
+                "tags": "${merge(local.tags, try(each.value.tg_tags, {}))}",
+                "lifecycle": [
+                    {
+                        "create_before_destroy": true
+                    }
+                ]
+            },
+            "Type": "aws_lb_target_group",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in var.target_groups : k => v if local.create}}",
+                "connection_termination": "${try(each.value.connection_termination, None)}",
+                "deregistration_delay": "${try(each.value.deregistration_delay, None)}",
+                "dynamic": [
+                    {
+                        "health_check": {
+                            "for_each": "${try(['${each.value.health_check}'], {})}",
+                            "content": [
+                                {
+                                    "enabled": "${try(health_check.value.enabled, None)}",
+                                    "healthy_threshold": "${try(health_check.value.healthy_threshold, None)}",
+                                    "interval": "${try(health_check.value.interval, None)}",
+                                    "matcher": "${try(health_check.value.matcher, None)}",
+                                    "path": "${try(health_check.value.path, None)}",
+                                    "port": "${try(health_check.value.port, None)}",
+                                    "protocol": "${try(health_check.value.protocol, None)}",
+                                    "timeout": "${try(health_check.value.timeout, None)}",
+                                    "unhealthy_threshold": "${try(health_check.value.unhealthy_threshold, None)}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "stickiness": {
+                            "for_each": "${each.value.stickiness != None ? ['${each.value.stickiness}'] : []}",
+                            "content": [
+                                {
+                                    "cookie_duration": "${try(stickiness.value.cookie_duration, None)}",
+                                    "cookie_name": "${try(stickiness.value.cookie_name, None)}",
+                                    "enabled": "${try(stickiness.value.enabled, True)}",
+                                    "type": "${var.load_balancer_type == \"network\" ? stickiness != None ? stickiness.value.type : None : None}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "target_failover": {
+                            "for_each": "${try(lookup(each.value, \"target_failover\", None), None) != None ? ['${each.value.target_failover}'] : []}",
+                            "content": [
+                                {
+                                    "on_deregistration": "${target_failover.value.on_deregistration}",
+                                    "on_unhealthy": "${target_failover.value.on_unhealthy}"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "target_health_state": {
+                            "for_each": "${try(['${each.value.target_health_state}'], {})}",
+                            "content": [
+                                {
+                                    "enable_unhealthy_connection_termination": "${try(target_health_state.value.enable_unhealthy_connection_termination, True)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "ip_address_type": "${try(each.value.ip_address_type, None)}",
+                "lambda_multi_value_headers_enabled": "${try(each.value.lambda_multi_value_headers_enabled, None)}",
+                "load_balancing_algorithm_type": "${try(each.value.load_balancing_algorithm_type, None)}",
+                "load_balancing_anomaly_mitigation": "${try(each.value.load_balancing_anomaly_mitigation, None)}",
+                "load_balancing_cross_zone_enabled": "${try(each.value.load_balancing_cross_zone_enabled, None)}",
+                "name": "${try(each.value.name, None)}",
+                "name_prefix": "${try(each.value.name_prefix, None)}",
+                "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                "preserve_client_ip": "${try(each.value.preserve_client_ip, None)}",
+                "protocol": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.protocol, var.default_protocol)}",
+                "protocol_version": "${try(each.value.protocol_version, None)}",
+                "proxy_protocol_v2": "${try(each.value.proxy_protocol_v2, None)}",
+                "slow_start": "${try(each.value.slow_start, None)}",
+                "target_type": "${try(each.value.target_type, None)}",
+                "vpc_id": "${try(var.vpc_id, each.value.vpc_id, None)}",
+                "tags": "${merge(local.tags, try(each.value.tg_tags, {}))}",
+                "lifecycle": [
+                    {
+                        "create_before_destroy": true
+                    }
+                ]
+            }
+        },
+        {
+            "aws_lb_target_group_attachment": {
+                "this": {
+                    "for_each": "${{for k , v in var.target_groups : k => v if local.create && lookup(v, \"create_attachment\", False)}}",
+                    "target_group_arn": "${aws_lb_target_group.this[each.key].arn}",
+                    "target_id": "${each.value.target_id}",
+                    "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                    "availability_zone": "${try(each.value.availability_zone, None)}",
+                    "depends_on": [
+                        "${aws_lambda_permission.this}"
+                    ]
+                }
+            },
+            "resource_id": "aws_lb_target_group_attachment.this",
+            "resource_type": "aws_lb_target_group_attachment",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.target_groups : k => v if local.create && lookup(v, \"create_attachment\", False)}}",
+                "target_group_arn": "${aws_lb_target_group.this[each.key].arn}",
+                "target_id": "${each.value.target_id}",
+                "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                "availability_zone": "${try(each.value.availability_zone, None)}",
+                "depends_on": [
+                    "${aws_lambda_permission.this}"
+                ]
+            },
+            "Type": "aws_lb_target_group_attachment",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in var.target_groups : k => v if local.create && lookup(v, \"create_attachment\", False)}}",
+                "target_group_arn": "${aws_lb_target_group.this[each.key].arn}",
+                "target_id": "${each.value.target_id}",
+                "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                "availability_zone": "${try(each.value.availability_zone, None)}",
+                "depends_on": [
+                    "${aws_lambda_permission.this}"
+                ]
+            }
+        },
+        {
+            "aws_lb_target_group_attachment": {
+                "additional": {
+                    "for_each": "${{for k , v in var.additional_target_group_attachments : k => v if local.create}}",
+                    "target_group_arn": "${aws_lb_target_group.this[each.value.target_group_key].arn}",
+                    "target_id": "${each.value.target_id}",
+                    "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                    "availability_zone": "${try(each.value.availability_zone, None)}",
+                    "depends_on": [
+                        "${aws_lambda_permission.this}"
+                    ]
+                }
+            },
+            "resource_id": "aws_lb_target_group_attachment.additional",
+            "resource_type": "aws_lb_target_group_attachment",
+            "resource_name": "additional",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.additional_target_group_attachments : k => v if local.create}}",
+                "target_group_arn": "${aws_lb_target_group.this[each.value.target_group_key].arn}",
+                "target_id": "${each.value.target_id}",
+                "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                "availability_zone": "${try(each.value.availability_zone, None)}",
+                "depends_on": [
+                    "${aws_lambda_permission.this}"
+                ]
+            },
+            "Type": "aws_lb_target_group_attachment",
+            "_key": "additional",
+            "Properties": {
+                "for_each": "${{for k , v in var.additional_target_group_attachments : k => v if local.create}}",
+                "target_group_arn": "${aws_lb_target_group.this[each.value.target_group_key].arn}",
+                "target_id": "${each.value.target_id}",
+                "port": "${try(each.value.target_type, None) == \"lambda\" ? None : try(each.value.port, var.default_port)}",
+                "availability_zone": "${try(each.value.availability_zone, None)}",
+                "depends_on": [
+                    "${aws_lambda_permission.this}"
+                ]
+            }
+        },
+        {
+            "aws_lambda_permission": {
+                "this": {
+                    "for_each": "${{for k , v in local.lambda_target_groups : k => v if local.create}}",
+                    "function_name": "${each.value.lambda_function_name}",
+                    "qualifier": "${try(each.value.lambda_qualifier, None)}",
+                    "statement_id": "${try(each.value.lambda_statement_id, \"AllowExecutionFromLb\")}",
+                    "action": "${try(each.value.lambda_action, \"lambda:InvokeFunction\")}",
+                    "principal": "${try(each.value.lambda_principal, \"elasticloadbalancing.${data.aws_partition.current.dns_suffix}\")}",
+                    "source_arn": "${aws_lb_target_group.this[each.key].arn}",
+                    "source_account": "${try(each.value.lambda_source_account, None)}",
+                    "event_source_token": "${try(each.value.lambda_event_source_token, None)}"
+                }
+            },
+            "resource_id": "aws_lambda_permission.this",
+            "resource_type": "aws_lambda_permission",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in local.lambda_target_groups : k => v if local.create}}",
+                "function_name": "${each.value.lambda_function_name}",
+                "qualifier": "${try(each.value.lambda_qualifier, None)}",
+                "statement_id": "${try(each.value.lambda_statement_id, \"AllowExecutionFromLb\")}",
+                "action": "${try(each.value.lambda_action, \"lambda:InvokeFunction\")}",
+                "principal": "${try(each.value.lambda_principal, \"elasticloadbalancing.${data.aws_partition.current.dns_suffix}\")}",
+                "source_arn": "${aws_lb_target_group.this[each.key].arn}",
+                "source_account": "${try(each.value.lambda_source_account, None)}",
+                "event_source_token": "${try(each.value.lambda_event_source_token, None)}"
+            },
+            "Type": "aws_lambda_permission",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in local.lambda_target_groups : k => v if local.create}}",
+                "function_name": "${each.value.lambda_function_name}",
+                "qualifier": "${try(each.value.lambda_qualifier, None)}",
+                "statement_id": "${try(each.value.lambda_statement_id, \"AllowExecutionFromLb\")}",
+                "action": "${try(each.value.lambda_action, \"lambda:InvokeFunction\")}",
+                "principal": "${try(each.value.lambda_principal, \"elasticloadbalancing.${data.aws_partition.current.dns_suffix}\")}",
+                "source_arn": "${aws_lb_target_group.this[each.key].arn}",
+                "source_account": "${try(each.value.lambda_source_account, None)}",
+                "event_source_token": "${try(each.value.lambda_event_source_token, None)}"
+            }
+        },
+        {
+            "aws_security_group": {
+                "this": {
+                    "count": "${local.create_security_group ? 1 : 0}",
+                    "name": "${var.security_group_use_name_prefix ? None : local.security_group_name}",
+                    "name_prefix": "${var.security_group_use_name_prefix ? \"${local.security_group_name}-\" : None}",
+                    "description": "${coalesce(var.security_group_description, \"Security group for ${local.security_group_name} ${var.load_balancer_type} load balancer\")}",
+                    "vpc_id": "${var.vpc_id}",
+                    "tags": "${merge(local.tags, var.security_group_tags)}",
+                    "lifecycle": [
+                        {
+                            "create_before_destroy": true
+                        }
+                    ]
+                }
+            },
+            "resource_id": "aws_security_group.this",
+            "resource_type": "aws_security_group",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${local.create_security_group ? 1 : 0}",
+                "name": "${var.security_group_use_name_prefix ? None : local.security_group_name}",
+                "name_prefix": "${var.security_group_use_name_prefix ? \"${local.security_group_name}-\" : None}",
+                "description": "${coalesce(var.security_group_description, \"Security group for ${local.security_group_name} ${var.load_balancer_type} load balancer\")}",
+                "vpc_id": "${var.vpc_id}",
+                "tags": "${merge(local.tags, var.security_group_tags)}",
+                "lifecycle": [
+                    {
+                        "create_before_destroy": true
+                    }
+                ]
+            },
+            "Type": "aws_security_group",
+            "_key": "this",
+            "Properties": {
+                "count": "${local.create_security_group ? 1 : 0}",
+                "name": "${var.security_group_use_name_prefix ? None : local.security_group_name}",
+                "name_prefix": "${var.security_group_use_name_prefix ? \"${local.security_group_name}-\" : None}",
+                "description": "${coalesce(var.security_group_description, \"Security group for ${local.security_group_name} ${var.load_balancer_type} load balancer\")}",
+                "vpc_id": "${var.vpc_id}",
+                "tags": "${merge(local.tags, var.security_group_tags)}",
+                "lifecycle": [
+                    {
+                        "create_before_destroy": true
+                    }
+                ]
+            }
+        },
+        {
+            "aws_vpc_security_group_egress_rule": {
+                "this": {
+                    "for_each": "${{for k , v in var.security_group_egress_rules : k => v if local.create_security_group}}",
+                    "security_group_id": "${aws_security_group.this[0].id}",
+                    "ip_protocol": "${try(each.value.ip_protocol, \"tcp\")}",
+                    "cidr_ipv4": "${lookup(each.value, \"cidr_ipv4\", None)}",
+                    "cidr_ipv6": "${lookup(each.value, \"cidr_ipv6\", None)}",
+                    "description": "${try(each.value.description, None)}",
+                    "from_port": "${try(each.value.from_port, None)}",
+                    "prefix_list_id": "${lookup(each.value, \"prefix_list_id\", None)}",
+                    "referenced_security_group_id": "${lookup(each.value, \"referenced_security_group_id\", None)}",
+                    "to_port": "${try(each.value.to_port, None)}",
+                    "tags": "${merge(each.value.tags, var.security_group_tags, local.tags)}"
+                }
+            },
+            "resource_id": "aws_vpc_security_group_egress_rule.this",
+            "resource_type": "aws_vpc_security_group_egress_rule",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.security_group_egress_rules : k => v if local.create_security_group}}",
+                "security_group_id": "${aws_security_group.this[0].id}",
+                "ip_protocol": "${try(each.value.ip_protocol, \"tcp\")}",
+                "cidr_ipv4": "${lookup(each.value, \"cidr_ipv4\", None)}",
+                "cidr_ipv6": "${lookup(each.value, \"cidr_ipv6\", None)}",
+                "description": "${try(each.value.description, None)}",
+                "from_port": "${try(each.value.from_port, None)}",
+                "prefix_list_id": "${lookup(each.value, \"prefix_list_id\", None)}",
+                "referenced_security_group_id": "${lookup(each.value, \"referenced_security_group_id\", None)}",
+                "to_port": "${try(each.value.to_port, None)}",
+                "tags": "${merge(each.value.tags, var.security_group_tags, local.tags)}"
+            },
+            "Type": "aws_vpc_security_group_egress_rule",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in var.security_group_egress_rules : k => v if local.create_security_group}}",
+                "security_group_id": "${aws_security_group.this[0].id}",
+                "ip_protocol": "${try(each.value.ip_protocol, \"tcp\")}",
+                "cidr_ipv4": "${lookup(each.value, \"cidr_ipv4\", None)}",
+                "cidr_ipv6": "${lookup(each.value, \"cidr_ipv6\", None)}",
+                "description": "${try(each.value.description, None)}",
+                "from_port": "${try(each.value.from_port, None)}",
+                "prefix_list_id": "${lookup(each.value, \"prefix_list_id\", None)}",
+                "referenced_security_group_id": "${lookup(each.value, \"referenced_security_group_id\", None)}",
+                "to_port": "${try(each.value.to_port, None)}",
+                "tags": "${merge(each.value.tags, var.security_group_tags, local.tags)}"
+            }
+        },
+        {
+            "aws_vpc_security_group_ingress_rule": {
+                "this": {
+                    "for_each": "${{for k , v in var.security_group_ingress_rules : k => v if local.create_security_group}}",
+                    "security_group_id": "${aws_security_group.this[0].id}",
+                    "ip_protocol": "${try(each.value.ip_protocol, \"tcp\")}",
+                    "cidr_ipv4": "${lookup(each.value, \"cidr_ipv4\", None)}",
+                    "cidr_ipv6": "${lookup(each.value, \"cidr_ipv6\", None)}",
+                    "description": "${try(each.value.description, None)}",
+                    "from_port": "${try(each.value.from_port, None)}",
+                    "prefix_list_id": "${lookup(each.value, \"prefix_list_id\", None)}",
+                    "referenced_security_group_id": "${lookup(each.value, \"referenced_security_group_id\", None)}",
+                    "to_port": "${try(each.value.to_port, None)}",
+                    "tags": "${merge(each.value.tags, var.security_group_tags, local.tags)}"
+                }
+            },
+            "resource_id": "aws_vpc_security_group_ingress_rule.this",
+            "resource_type": "aws_vpc_security_group_ingress_rule",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.security_group_ingress_rules : k => v if local.create_security_group}}",
+                "security_group_id": "${aws_security_group.this[0].id}",
+                "ip_protocol": "${try(each.value.ip_protocol, \"tcp\")}",
+                "cidr_ipv4": "${lookup(each.value, \"cidr_ipv4\", None)}",
+                "cidr_ipv6": "${lookup(each.value, \"cidr_ipv6\", None)}",
+                "description": "${try(each.value.description, None)}",
+                "from_port": "${try(each.value.from_port, None)}",
+                "prefix_list_id": "${lookup(each.value, \"prefix_list_id\", None)}",
+                "referenced_security_group_id": "${lookup(each.value, \"referenced_security_group_id\", None)}",
+                "to_port": "${try(each.value.to_port, None)}",
+                "tags": "${merge(each.value.tags, var.security_group_tags, local.tags)}"
+            },
+            "Type": "aws_vpc_security_group_ingress_rule",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in var.security_group_ingress_rules : k => v if local.create_security_group}}",
+                "security_group_id": "${aws_security_group.this[0].id}",
+                "ip_protocol": "${try(each.value.ip_protocol, \"tcp\")}",
+                "cidr_ipv4": "${lookup(each.value, \"cidr_ipv4\", None)}",
+                "cidr_ipv6": "${lookup(each.value, \"cidr_ipv6\", None)}",
+                "description": "${try(each.value.description, None)}",
+                "from_port": "${try(each.value.from_port, None)}",
+                "prefix_list_id": "${lookup(each.value, \"prefix_list_id\", None)}",
+                "referenced_security_group_id": "${lookup(each.value, \"referenced_security_group_id\", None)}",
+                "to_port": "${try(each.value.to_port, None)}",
+                "tags": "${merge(each.value.tags, var.security_group_tags, local.tags)}"
+            }
+        },
+        {
+            "aws_route53_record": {
+                "this": {
+                    "for_each": "${{for k , v in var.route53_records : k => v if var.create}}",
+                    "zone_id": "${each.value.zone_id}",
+                    "name": "${try(each.value.name, each.key)}",
+                    "type": "${each.value.type}",
+                    "alias": [
+                        {
+                            "name": "${aws_lb.this[0].dns_name}",
+                            "zone_id": "${aws_lb.this[0].zone_id}",
+                            "evaluate_target_health": true
+                        }
+                    ]
+                }
+            },
+            "resource_id": "aws_route53_record.this",
+            "resource_type": "aws_route53_record",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.route53_records : k => v if var.create}}",
+                "zone_id": "${each.value.zone_id}",
+                "name": "${try(each.value.name, each.key)}",
+                "type": "${each.value.type}",
+                "alias": [
+                    {
+                        "name": "${aws_lb.this[0].dns_name}",
+                        "zone_id": "${aws_lb.this[0].zone_id}",
+                        "evaluate_target_health": true
+                    }
+                ]
+            },
+            "Type": "aws_route53_record",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in var.route53_records : k => v if var.create}}",
+                "zone_id": "${each.value.zone_id}",
+                "name": "${try(each.value.name, each.key)}",
+                "type": "${each.value.type}",
+                "alias": [
+                    {
+                        "name": "${aws_lb.this[0].dns_name}",
+                        "zone_id": "${aws_lb.this[0].zone_id}",
+                        "evaluate_target_health": true
+                    }
+                ]
+            }
+        },
+        {
+            "aws_wafv2_web_acl_association": {
+                "this": {
+                    "count": "${var.associate_web_acl ? 1 : 0}",
+                    "resource_arn": "${aws_lb.this[0].arn}",
+                    "web_acl_arn": "${var.web_acl_arn}"
+                }
+            },
+            "resource_id": "aws_wafv2_web_acl_association.this",
+            "resource_type": "aws_wafv2_web_acl_association",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.associate_web_acl ? 1 : 0}",
+                "resource_arn": "${aws_lb.this[0].arn}",
+                "web_acl_arn": "${var.web_acl_arn}"
+            },
+            "Type": "aws_wafv2_web_acl_association",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.associate_web_acl ? 1 : 0}",
+                "resource_arn": "${aws_lb.this[0].arn}",
+                "web_acl_arn": "${var.web_acl_arn}"
+            }
+        },
+        {
+            "aws_ecr_repository": {
+                "this": {
+                    "count": "${local.create_private_repository ? 1 : 0}",
+                    "name": "${var.repository_name}",
+                    "image_tag_mutability": "${var.repository_image_tag_mutability}",
+                    "encryption_configuration": [
+                        {
+                            "encryption_type": "${var.repository_encryption_type}",
+                            "kms_key": "${var.repository_kms_key}"
+                        }
+                    ],
+                    "force_delete": "${var.repository_force_delete}",
+                    "image_scanning_configuration": [
+                        {
+                            "scan_on_push": "${var.repository_image_scan_on_push}"
+                        }
+                    ],
+                    "tags": "${merge(var.Predefined_tags, var.tags)}"
+                }
+            },
+            "resource_id": "aws_ecr_repository.this",
+            "resource_type": "aws_ecr_repository",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${local.create_private_repository ? 1 : 0}",
+                "name": "${var.repository_name}",
+                "image_tag_mutability": "${var.repository_image_tag_mutability}",
+                "encryption_configuration": [
+                    {
+                        "encryption_type": "${var.repository_encryption_type}",
+                        "kms_key": "${var.repository_kms_key}"
+                    }
+                ],
+                "force_delete": "${var.repository_force_delete}",
+                "image_scanning_configuration": [
+                    {
+                        "scan_on_push": "${var.repository_image_scan_on_push}"
+                    }
+                ],
+                "tags": "${merge(var.Predefined_tags, var.tags)}"
+            },
+            "Type": "aws_ecr_repository",
+            "_key": "this",
+            "Properties": {
+                "count": "${local.create_private_repository ? 1 : 0}",
+                "name": "${var.repository_name}",
+                "image_tag_mutability": "${var.repository_image_tag_mutability}",
+                "encryption_configuration": [
+                    {
+                        "encryption_type": "${var.repository_encryption_type}",
+                        "kms_key": "${var.repository_kms_key}"
+                    }
+                ],
+                "force_delete": "${var.repository_force_delete}",
+                "image_scanning_configuration": [
+                    {
+                        "scan_on_push": "${var.repository_image_scan_on_push}"
+                    }
+                ],
+                "tags": "${merge(var.Predefined_tags, var.tags)}"
+            }
+        },
+        {
+            "aws_ecr_repository_policy": {
+                "this": {
+                    "count": "${local.create_private_repository && var.attach_repository_policy ? 1 : 0}",
+                    "repository": "${aws_ecr_repository.this[0].name}",
+                    "policy": "${var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy}"
+                }
+            },
+            "resource_id": "aws_ecr_repository_policy.this",
+            "resource_type": "aws_ecr_repository_policy",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${local.create_private_repository && var.attach_repository_policy ? 1 : 0}",
+                "repository": "${aws_ecr_repository.this[0].name}",
+                "policy": "${var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy}"
+            },
+            "Type": "aws_ecr_repository_policy",
+            "_key": "this",
+            "Properties": {
+                "count": "${local.create_private_repository && var.attach_repository_policy ? 1 : 0}",
+                "repository": "${aws_ecr_repository.this[0].name}",
+                "policy": "${var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy}"
+            }
+        },
+        {
+            "aws_ecr_lifecycle_policy": {
+                "this": {
+                    "count": "${local.create_private_repository && var.create_lifecycle_policy ? 1 : 0}",
+                    "repository": "${aws_ecr_repository.this[0].name}",
+                    "policy": "${var.repository_lifecycle_policy}"
+                }
+            },
+            "resource_id": "aws_ecr_lifecycle_policy.this",
+            "resource_type": "aws_ecr_lifecycle_policy",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${local.create_private_repository && var.create_lifecycle_policy ? 1 : 0}",
+                "repository": "${aws_ecr_repository.this[0].name}",
+                "policy": "${var.repository_lifecycle_policy}"
+            },
+            "Type": "aws_ecr_lifecycle_policy",
+            "_key": "this",
+            "Properties": {
+                "count": "${local.create_private_repository && var.create_lifecycle_policy ? 1 : 0}",
+                "repository": "${aws_ecr_repository.this[0].name}",
+                "policy": "${var.repository_lifecycle_policy}"
+            }
+        },
+        {
+            "aws_ecrpublic_repository": {
+                "this": {
+                    "count": "${local.create_public_repository ? 1 : 0}",
+                    "repository_name": "${var.repository_name}",
+                    "dynamic": [
+                        {
+                            "catalog_data": {
+                                "for_each": "${length(var.public_repository_catalog_data) > 0 ? ['${var.public_repository_catalog_data}'] : []}",
+                                "content": [
+                                    {
+                                        "about_text": "${try(catalog_data.value.about_text, None)}",
+                                        "architectures": "${try(catalog_data.value.architectures, None)}",
+                                        "description": "${try(catalog_data.value.description, None)}",
+                                        "logo_image_blob": "${try(catalog_data.value.logo_image_blob, None)}",
+                                        "operating_systems": "${try(catalog_data.value.operating_systems, None)}",
+                                        "usage_text": "${try(catalog_data.value.usage_text, None)}"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "resource_id": "aws_ecrpublic_repository.this",
+            "resource_type": "aws_ecrpublic_repository",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${local.create_public_repository ? 1 : 0}",
+                "repository_name": "${var.repository_name}",
+                "dynamic": [
+                    {
+                        "catalog_data": {
+                            "for_each": "${length(var.public_repository_catalog_data) > 0 ? ['${var.public_repository_catalog_data}'] : []}",
+                            "content": [
+                                {
+                                    "about_text": "${try(catalog_data.value.about_text, None)}",
+                                    "architectures": "${try(catalog_data.value.architectures, None)}",
+                                    "description": "${try(catalog_data.value.description, None)}",
+                                    "logo_image_blob": "${try(catalog_data.value.logo_image_blob, None)}",
+                                    "operating_systems": "${try(catalog_data.value.operating_systems, None)}",
+                                    "usage_text": "${try(catalog_data.value.usage_text, None)}"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "Type": "aws_ecrpublic_repository",
+            "_key": "this",
+            "Properties": {
+                "count": "${local.create_public_repository ? 1 : 0}",
+                "repository_name": "${var.repository_name}",
+                "dynamic": [
+                    {
+                        "catalog_data": {
+                            "for_each": "${length(var.public_repository_catalog_data) > 0 ? ['${var.public_repository_catalog_data}'] : []}",
+                            "content": [
+                                {
+                                    "about_text": "${try(catalog_data.value.about_text, None)}",
+                                    "architectures": "${try(catalog_data.value.architectures, None)}",
+                                    "description": "${try(catalog_data.value.description, None)}",
+                                    "logo_image_blob": "${try(catalog_data.value.logo_image_blob, None)}",
+                                    "operating_systems": "${try(catalog_data.value.operating_systems, None)}",
+                                    "usage_text": "${try(catalog_data.value.usage_text, None)}"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "aws_ecrpublic_repository_policy": {
+                "example": {
+                    "count": "${local.create_public_repository ? 1 : 0}",
+                    "repository_name": "${aws_ecrpublic_repository.this[0].repository_name}",
+                    "policy": "${var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy}"
+                }
+            },
+            "resource_id": "aws_ecrpublic_repository_policy.example",
+            "resource_type": "aws_ecrpublic_repository_policy",
+            "resource_name": "example",
+            "resource_properties": {
+                "count": "${local.create_public_repository ? 1 : 0}",
+                "repository_name": "${aws_ecrpublic_repository.this[0].repository_name}",
+                "policy": "${var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy}"
+            },
+            "Type": "aws_ecrpublic_repository_policy",
+            "_key": "example",
+            "Properties": {
+                "count": "${local.create_public_repository ? 1 : 0}",
+                "repository_name": "${aws_ecrpublic_repository.this[0].repository_name}",
+                "policy": "${var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy}"
+            }
+        },
+        {
+            "aws_ecr_registry_policy": {
+                "this": {
+                    "count": "${var.create && var.create_registry_policy ? 1 : 0}",
+                    "policy": "${var.registry_policy}"
+                }
+            },
+            "resource_id": "aws_ecr_registry_policy.this",
+            "resource_type": "aws_ecr_registry_policy",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create && var.create_registry_policy ? 1 : 0}",
+                "policy": "${var.registry_policy}"
+            },
+            "Type": "aws_ecr_registry_policy",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create && var.create_registry_policy ? 1 : 0}",
+                "policy": "${var.registry_policy}"
+            }
+        },
+        {
+            "aws_ecr_pull_through_cache_rule": {
+                "this": {
+                    "for_each": "${{for k , v in var.registry_pull_through_cache_rules : k => v if var.create}}",
+                    "ecr_repository_prefix": "${each.value.ecr_repository_prefix}",
+                    "upstream_registry_url": "${each.value.upstream_registry_url}"
+                }
+            },
+            "resource_id": "aws_ecr_pull_through_cache_rule.this",
+            "resource_type": "aws_ecr_pull_through_cache_rule",
+            "resource_name": "this",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.registry_pull_through_cache_rules : k => v if var.create}}",
+                "ecr_repository_prefix": "${each.value.ecr_repository_prefix}",
+                "upstream_registry_url": "${each.value.upstream_registry_url}"
+            },
+            "Type": "aws_ecr_pull_through_cache_rule",
+            "_key": "this",
+            "Properties": {
+                "for_each": "${{for k , v in var.registry_pull_through_cache_rules : k => v if var.create}}",
+                "ecr_repository_prefix": "${each.value.ecr_repository_prefix}",
+                "upstream_registry_url": "${each.value.upstream_registry_url}"
+            }
+        },
+        {
+            "aws_ecr_registry_scanning_configuration": {
+                "this": {
+                    "count": "${var.create && var.manage_registry_scanning_configuration ? 1 : 0}",
+                    "scan_type": "${var.registry_scan_type}",
+                    "dynamic": [
+                        {
+                            "rule": {
+                                "for_each": "${var.registry_scan_rules}",
+                                "content": [
+                                    {
+                                        "scan_frequency": "${rule.value.scan_frequency}",
+                                        "repository_filter": [
+                                            {
+                                                "filter": "${rule.value.filter}",
+                                                "filter_type": "${try(rule.value.filter_type, \"WILDCARD\")}"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "resource_id": "aws_ecr_registry_scanning_configuration.this",
+            "resource_type": "aws_ecr_registry_scanning_configuration",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create && var.manage_registry_scanning_configuration ? 1 : 0}",
+                "scan_type": "${var.registry_scan_type}",
+                "dynamic": [
+                    {
+                        "rule": {
+                            "for_each": "${var.registry_scan_rules}",
+                            "content": [
+                                {
+                                    "scan_frequency": "${rule.value.scan_frequency}",
+                                    "repository_filter": [
+                                        {
+                                            "filter": "${rule.value.filter}",
+                                            "filter_type": "${try(rule.value.filter_type, \"WILDCARD\")}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "Type": "aws_ecr_registry_scanning_configuration",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create && var.manage_registry_scanning_configuration ? 1 : 0}",
+                "scan_type": "${var.registry_scan_type}",
+                "dynamic": [
+                    {
+                        "rule": {
+                            "for_each": "${var.registry_scan_rules}",
+                            "content": [
+                                {
+                                    "scan_frequency": "${rule.value.scan_frequency}",
+                                    "repository_filter": [
+                                        {
+                                            "filter": "${rule.value.filter}",
+                                            "filter_type": "${try(rule.value.filter_type, \"WILDCARD\")}"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "aws_ecr_replication_configuration": {
+                "this": {
+                    "count": "${var.create && var.create_registry_replication_configuration ? 1 : 0}",
+                    "replication_configuration": [
+                        {
+                            "dynamic": [
+                                {
+                                    "rule": {
+                                        "for_each": "${var.registry_replication_rules}",
+                                        "content": [
+                                            {
+                                                "dynamic": [
+                                                    {
+                                                        "destination": {
+                                                            "for_each": "${rule.value.destinations}",
+                                                            "content": [
+                                                                {
+                                                                    "region": "${destination.value.region}",
+                                                                    "registry_id": "${destination.value.registry_id}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "repository_filter": {
+                                                            "for_each": "${try(rule.value.repository_filters, [])}",
+                                                            "content": [
+                                                                {
+                                                                    "filter": "${repository_filter.value.filter}",
+                                                                    "filter_type": "${repository_filter.value.filter_type}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "resource_id": "aws_ecr_replication_configuration.this",
+            "resource_type": "aws_ecr_replication_configuration",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create && var.create_registry_replication_configuration ? 1 : 0}",
+                "replication_configuration": [
+                    {
+                        "dynamic": [
+                            {
+                                "rule": {
+                                    "for_each": "${var.registry_replication_rules}",
+                                    "content": [
+                                        {
+                                            "dynamic": [
+                                                {
+                                                    "destination": {
+                                                        "for_each": "${rule.value.destinations}",
+                                                        "content": [
+                                                            {
+                                                                "region": "${destination.value.region}",
+                                                                "registry_id": "${destination.value.registry_id}"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "repository_filter": {
+                                                        "for_each": "${try(rule.value.repository_filters, [])}",
+                                                        "content": [
+                                                            {
+                                                                "filter": "${repository_filter.value.filter}",
+                                                                "filter_type": "${repository_filter.value.filter_type}"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Type": "aws_ecr_replication_configuration",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create && var.create_registry_replication_configuration ? 1 : 0}",
+                "replication_configuration": [
+                    {
+                        "dynamic": [
+                            {
+                                "rule": {
+                                    "for_each": "${var.registry_replication_rules}",
+                                    "content": [
+                                        {
+                                            "dynamic": [
+                                                {
+                                                    "destination": {
+                                                        "for_each": "${rule.value.destinations}",
+                                                        "content": [
+                                                            {
+                                                                "region": "${destination.value.region}",
+                                                                "registry_id": "${destination.value.registry_id}"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "repository_filter": {
+                                                        "for_each": "${try(rule.value.repository_filters, [])}",
+                                                        "content": [
+                                                            {
+                                                                "filter": "${repository_filter.value.filter}",
+                                                                "filter_type": "${repository_filter.value.filter_type}"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "aws_secretsmanager_secret": {
+                "this": {
+                    "count": "${var.create ? 1 : 0}",
+                    "description": "${var.description}",
+                    "force_overwrite_replica_secret": "${var.force_overwrite_replica_secret}",
+                    "kms_key_id": "${var.kms_key_id}",
+                    "name": "${var.name}",
+                    "name_prefix": "${var.name_prefix}",
+                    "recovery_window_in_days": "${var.recovery_window_in_days}",
+                    "dynamic": [
+                        {
+                            "replica": {
+                                "for_each": "${var.replica}",
+                                "content": [
+                                    {
+                                        "kms_key_id": "${try(replica.value.kms_key_id, None)}",
+                                        "region": "${try(replica.value.region, replica.key)}"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "tags": "${var.tags}"
+                }
+            },
+            "resource_id": "aws_secretsmanager_secret.this",
+            "resource_type": "aws_secretsmanager_secret",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create ? 1 : 0}",
+                "description": "${var.description}",
+                "force_overwrite_replica_secret": "${var.force_overwrite_replica_secret}",
+                "kms_key_id": "${var.kms_key_id}",
+                "name": "${var.name}",
+                "name_prefix": "${var.name_prefix}",
+                "recovery_window_in_days": "${var.recovery_window_in_days}",
+                "dynamic": [
+                    {
+                        "replica": {
+                            "for_each": "${var.replica}",
+                            "content": [
+                                {
+                                    "kms_key_id": "${try(replica.value.kms_key_id, None)}",
+                                    "region": "${try(replica.value.region, replica.key)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tags": "${var.tags}"
+            },
+            "Type": "aws_secretsmanager_secret",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create ? 1 : 0}",
+                "description": "${var.description}",
+                "force_overwrite_replica_secret": "${var.force_overwrite_replica_secret}",
+                "kms_key_id": "${var.kms_key_id}",
+                "name": "${var.name}",
+                "name_prefix": "${var.name_prefix}",
+                "recovery_window_in_days": "${var.recovery_window_in_days}",
+                "dynamic": [
+                    {
+                        "replica": {
+                            "for_each": "${var.replica}",
+                            "content": [
+                                {
+                                    "kms_key_id": "${try(replica.value.kms_key_id, None)}",
+                                    "region": "${try(replica.value.region, replica.key)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tags": "${var.tags}"
+            }
+        },
+        {
+            "aws_secretsmanager_secret_policy": {
+                "this": {
+                    "count": "${var.create && var.create_policy ? 1 : 0}",
+                    "secret_arn": "${aws_secretsmanager_secret.this[0].arn}",
+                    "policy": "${data.aws_iam_policy_document.this[0].json}",
+                    "block_public_policy": "${var.block_public_policy}"
+                }
+            },
+            "resource_id": "aws_secretsmanager_secret_policy.this",
+            "resource_type": "aws_secretsmanager_secret_policy",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create && var.create_policy ? 1 : 0}",
+                "secret_arn": "${aws_secretsmanager_secret.this[0].arn}",
+                "policy": "${data.aws_iam_policy_document.this[0].json}",
+                "block_public_policy": "${var.block_public_policy}"
+            },
+            "Type": "aws_secretsmanager_secret_policy",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create && var.create_policy ? 1 : 0}",
+                "secret_arn": "${aws_secretsmanager_secret.this[0].arn}",
+                "policy": "${data.aws_iam_policy_document.this[0].json}",
+                "block_public_policy": "${var.block_public_policy}"
+            }
+        },
+        {
+            "aws_secretsmanager_secret_version": {
+                "this": {
+                    "count": "${var.create && !var.enable_rotation || var.ignore_secret_changes ? 1 : 0}",
+                    "secret_id": "${aws_secretsmanager_secret.this[0].id}",
+                    "secret_string": "${var.create_random_password ? random_password.this[0].result : var.secret_string}",
+                    "secret_binary": "${var.secret_binary}",
+                    "version_stages": "${var.version_stages}"
+                }
+            },
+            "resource_id": "aws_secretsmanager_secret_version.this",
+            "resource_type": "aws_secretsmanager_secret_version",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create && !var.enable_rotation || var.ignore_secret_changes ? 1 : 0}",
+                "secret_id": "${aws_secretsmanager_secret.this[0].id}",
+                "secret_string": "${var.create_random_password ? random_password.this[0].result : var.secret_string}",
+                "secret_binary": "${var.secret_binary}",
+                "version_stages": "${var.version_stages}"
+            },
+            "Type": "aws_secretsmanager_secret_version",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create && !var.enable_rotation || var.ignore_secret_changes ? 1 : 0}",
+                "secret_id": "${aws_secretsmanager_secret.this[0].id}",
+                "secret_string": "${var.create_random_password ? random_password.this[0].result : var.secret_string}",
+                "secret_binary": "${var.secret_binary}",
+                "version_stages": "${var.version_stages}"
+            }
+        },
+        {
+            "aws_secretsmanager_secret_version": {
+                "ignore_changes": {
+                    "count": "${var.create && var.enable_rotation || var.ignore_secret_changes ? 1 : 0}",
+                    "secret_id": "${aws_secretsmanager_secret.this[0].id}",
+                    "secret_string": "${var.create_random_password ? random_password.this[0].result : var.secret_string}",
+                    "secret_binary": "${var.secret_binary}",
+                    "version_stages": "${var.version_stages}"
+                }
+            },
+            "resource_id": "aws_secretsmanager_secret_version.ignore_changes",
+            "resource_type": "aws_secretsmanager_secret_version",
+            "resource_name": "ignore_changes",
+            "resource_properties": {
+                "count": "${var.create && var.enable_rotation || var.ignore_secret_changes ? 1 : 0}",
+                "secret_id": "${aws_secretsmanager_secret.this[0].id}",
+                "secret_string": "${var.create_random_password ? random_password.this[0].result : var.secret_string}",
+                "secret_binary": "${var.secret_binary}",
+                "version_stages": "${var.version_stages}"
+            },
+            "Type": "aws_secretsmanager_secret_version",
+            "_key": "ignore_changes",
+            "Properties": {
+                "count": "${var.create && var.enable_rotation || var.ignore_secret_changes ? 1 : 0}",
+                "secret_id": "${aws_secretsmanager_secret.this[0].id}",
+                "secret_string": "${var.create_random_password ? random_password.this[0].result : var.secret_string}",
+                "secret_binary": "${var.secret_binary}",
+                "version_stages": "${var.version_stages}"
+            }
+        },
+        {
+            "random_password": {
+                "this": {
+                    "count": "${var.create && var.create_random_password ? 1 : 0}",
+                    "length": "${var.random_password_length}",
+                    "special": true,
+                    "override_special": "${var.random_password_override_special}"
+                }
+            },
+            "resource_id": "random_password.this",
+            "resource_type": "random_password",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create && var.create_random_password ? 1 : 0}",
+                "length": "${var.random_password_length}",
+                "special": true,
+                "override_special": "${var.random_password_override_special}"
+            },
+            "Type": "random_password",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create && var.create_random_password ? 1 : 0}",
+                "length": "${var.random_password_length}",
+                "special": true,
+                "override_special": "${var.random_password_override_special}"
+            }
+        },
+        {
+            "aws_secretsmanager_secret_rotation": {
+                "this": {
+                    "count": "${var.create && var.enable_rotation ? 1 : 0}",
+                    "rotation_lambda_arn": "${var.rotation_lambda_arn}",
+                    "dynamic": [
+                        {
+                            "rotation_rules": {
+                                "for_each": [
+                                    "${var.rotation_rules}"
+                                ],
+                                "content": [
+                                    {
+                                        "automatically_after_days": "${try(rotation_rules.value.automatically_after_days, None)}",
+                                        "duration": "${try(rotation_rules.value.duration, None)}",
+                                        "schedule_expression": "${try(rotation_rules.value.schedule_expression, None)}"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "secret_id": "${aws_secretsmanager_secret.this[0].id}"
+                }
+            },
+            "resource_id": "aws_secretsmanager_secret_rotation.this",
+            "resource_type": "aws_secretsmanager_secret_rotation",
+            "resource_name": "this",
+            "resource_properties": {
+                "count": "${var.create && var.enable_rotation ? 1 : 0}",
+                "rotation_lambda_arn": "${var.rotation_lambda_arn}",
+                "dynamic": [
+                    {
+                        "rotation_rules": {
+                            "for_each": [
+                                "${var.rotation_rules}"
+                            ],
+                            "content": [
+                                {
+                                    "automatically_after_days": "${try(rotation_rules.value.automatically_after_days, None)}",
+                                    "duration": "${try(rotation_rules.value.duration, None)}",
+                                    "schedule_expression": "${try(rotation_rules.value.schedule_expression, None)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "secret_id": "${aws_secretsmanager_secret.this[0].id}"
+            },
+            "Type": "aws_secretsmanager_secret_rotation",
+            "_key": "this",
+            "Properties": {
+                "count": "${var.create && var.enable_rotation ? 1 : 0}",
+                "rotation_lambda_arn": "${var.rotation_lambda_arn}",
+                "dynamic": [
+                    {
+                        "rotation_rules": {
+                            "for_each": [
+                                "${var.rotation_rules}"
+                            ],
+                            "content": [
+                                {
+                                    "automatically_after_days": "${try(rotation_rules.value.automatically_after_days, None)}",
+                                    "duration": "${try(rotation_rules.value.duration, None)}",
+                                    "schedule_expression": "${try(rotation_rules.value.schedule_expression, None)}"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "secret_id": "${aws_secretsmanager_secret.this[0].id}"
+            }
+        },
+        {
+            "aws_iam_role": {
+                "service_iam_role": {
+                    "for_each": "${var.roles}",
+                    "name": "${each.key}-role",
+                    "description": "IAM Role for Service Account mapping",
+                    "assume_role_policy": "${data.aws_iam_policy_document.service_iam_role_trust_policy[each.key].json}",
+                    "tags": "${merge(local.default_tags, {'Name': '${each.key}-role'})}"
+                }
+            },
+            "resource_id": "aws_iam_role.service_iam_role",
+            "resource_type": "aws_iam_role",
+            "resource_name": "service_iam_role",
+            "resource_properties": {
+                "for_each": "${var.roles}",
+                "name": "${each.key}-role",
+                "description": "IAM Role for Service Account mapping",
+                "assume_role_policy": "${data.aws_iam_policy_document.service_iam_role_trust_policy[each.key].json}",
+                "tags": "${merge(local.default_tags, {'Name': '${each.key}-role'})}"
+            },
+            "Type": "aws_iam_role",
+            "_key": "service_iam_role",
+            "Properties": {
+                "for_each": "${var.roles}",
+                "name": "${each.key}-role",
+                "description": "IAM Role for Service Account mapping",
+                "assume_role_policy": "${data.aws_iam_policy_document.service_iam_role_trust_policy[each.key].json}",
+                "tags": "${merge(local.default_tags, {'Name': '${each.key}-role'})}"
+            }
+        },
+        {
+            "aws_iam_policy": {
+                "secret_ro_policy": {
+                    "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_secrets_ro_policy}}",
+                    "name": "${each.key}-secrets-ro",
+                    "description": "Allows access to specific Secrets Manager secrets",
+                    "policy": "${data.aws_iam_policy_document.secrets_ro_policy[each.key].json}"
+                }
+            },
+            "resource_id": "aws_iam_policy.secret_ro_policy",
+            "resource_type": "aws_iam_policy",
+            "resource_name": "secret_ro_policy",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_secrets_ro_policy}}",
+                "name": "${each.key}-secrets-ro",
+                "description": "Allows access to specific Secrets Manager secrets",
+                "policy": "${data.aws_iam_policy_document.secrets_ro_policy[each.key].json}"
+            },
+            "Type": "aws_iam_policy",
+            "_key": "secret_ro_policy",
+            "Properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_secrets_ro_policy}}",
+                "name": "${each.key}-secrets-ro",
+                "description": "Allows access to specific Secrets Manager secrets",
+                "policy": "${data.aws_iam_policy_document.secrets_ro_policy[each.key].json}"
+            }
+        },
+        {
+            "aws_iam_role_policy_attachment": {
+                "secrets_ro_policy_attachment": {
+                    "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_secrets_ro_policy}}",
+                    "policy_arn": "${aws_iam_policy.secret_ro_policy[each.key].arn}",
+                    "role": "${each.value.role_name}"
+                }
+            },
+            "resource_id": "aws_iam_role_policy_attachment.secrets_ro_policy_attachment",
+            "resource_type": "aws_iam_role_policy_attachment",
+            "resource_name": "secrets_ro_policy_attachment",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_secrets_ro_policy}}",
+                "policy_arn": "${aws_iam_policy.secret_ro_policy[each.key].arn}",
+                "role": "${each.value.role_name}"
+            },
+            "Type": "aws_iam_role_policy_attachment",
+            "_key": "secrets_ro_policy_attachment",
+            "Properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_secrets_ro_policy}}",
+                "policy_arn": "${aws_iam_policy.secret_ro_policy[each.key].arn}",
+                "role": "${each.value.role_name}"
+            }
+        },
+        {
+            "aws_iam_policy": {
+                "kms_decrypt_policy": {
+                    "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_kms_decrypt_policy}}",
+                    "name": "${each.key}-kms-decrypt",
+                    "description": "Allows access to specific Secrets Manager secrets",
+                    "policy": "${data.aws_iam_policy_document.kms_decrypt_policy[each.key].json}"
+                }
+            },
+            "resource_id": "aws_iam_policy.kms_decrypt_policy",
+            "resource_type": "aws_iam_policy",
+            "resource_name": "kms_decrypt_policy",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_kms_decrypt_policy}}",
+                "name": "${each.key}-kms-decrypt",
+                "description": "Allows access to specific Secrets Manager secrets",
+                "policy": "${data.aws_iam_policy_document.kms_decrypt_policy[each.key].json}"
+            },
+            "Type": "aws_iam_policy",
+            "_key": "kms_decrypt_policy",
+            "Properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_kms_decrypt_policy}}",
+                "name": "${each.key}-kms-decrypt",
+                "description": "Allows access to specific Secrets Manager secrets",
+                "policy": "${data.aws_iam_policy_document.kms_decrypt_policy[each.key].json}"
+            }
+        },
+        {
+            "aws_iam_role_policy_attachment": {
+                "kms_decrypt_policy_attachment": {
+                    "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_kms_decrypt_policy}}",
+                    "policy_arn": "${aws_iam_policy.kms_decrypt_policy[each.key].arn}",
+                    "role": "${each.value.role_name}"
+                }
+            },
+            "resource_id": "aws_iam_role_policy_attachment.kms_decrypt_policy_attachment",
+            "resource_type": "aws_iam_role_policy_attachment",
+            "resource_name": "kms_decrypt_policy_attachment",
+            "resource_properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_kms_decrypt_policy}}",
+                "policy_arn": "${aws_iam_policy.kms_decrypt_policy[each.key].arn}",
+                "role": "${each.value.role_name}"
+            },
+            "Type": "aws_iam_role_policy_attachment",
+            "_key": "kms_decrypt_policy_attachment",
+            "Properties": {
+                "for_each": "${{for k , v in var.policy_mappings : k => v if v.attach_kms_decrypt_policy}}",
+                "policy_arn": "${aws_iam_policy.kms_decrypt_policy[each.key].arn}",
+                "role": "${each.value.role_name}"
+            }
+        }
+    ]
+}

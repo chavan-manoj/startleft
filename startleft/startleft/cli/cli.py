@@ -96,7 +96,7 @@ def parse_iac(iac_type, default_mapping_file, custom_mapping_file, output_file, 
         mapping_data_list.append(get_byte_data(custom_mapping_file))
 
     processor = provider_resolver.get_processor(IacType(iac_type.upper()), project_id, project_name, iac_data,
-                                                mapping_data_list)
+                                                mapping_data_list, iac_files)
     otm = processor.process()
 
     get_otm_as_file(otm, output_file)

@@ -15,11 +15,12 @@ class TerraformProcessor(OTMProcessor):
     Terraform implementation of OTMProcessor
     """
 
-    def __init__(self, project_id: str, project_name: str, sources: [bytes], mappings: [bytes]):
+    def __init__(self, project_id: str, project_name: str, sources: [bytes], mappings: [bytes], iac_files):
         self.project_id = project_id
         self.project_name = project_name
         self.sources = sources
         self.mappings = mappings
+        self.iac_files = iac_files
 
         self.terraform_loader = None
         self.mapping_loader = None
@@ -28,7 +29,7 @@ class TerraformProcessor(OTMProcessor):
         return TerraformValidator(self.sources)
 
     def get_provider_loader(self) -> ProviderLoader:
-        self.terraform_loader = TerraformLoader(self.sources)
+        self.terraform_loader = TerraformLoader(self.sources, self.iac_files)
         return self.terraform_loader
 
     def get_mapping_validator(self) -> MappingValidator:
